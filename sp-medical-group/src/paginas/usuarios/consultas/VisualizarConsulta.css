@@ -1,0 +1,30 @@
+.icone--usuario{
+    background: url("../../../recursos/imagens/consultas/icone-usuario.png") no-repeat;
+    height:150px;
+    width: 30%;
+    margin: auto;
+}
+
+/* Consulta */
+.corpo--consultas-container{
+    border-right: 1px solid #88888857;
+}
+
+.consulta--container > h4{
+    font-weight: 600;
+}
+
+/* #consultas--container > .consulta--container:last-child > hr{
+    display: none;
+} */
+
+.descricao--consulta{
+    font-size: 0.8em;
+    font-weight: 200;
+    font-style: italic;
+}
+
+/*Consulta detalhada*/
+#consulta--detalhada{
+    position: fixed;
+}

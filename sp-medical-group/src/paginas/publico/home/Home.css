@@ -1,0 +1,61 @@
+#foto--home{
+    background: #F6F6F6 url("../../../recursos/imagens/home/doctor-medical-medicine-health.jpeg") no-repeat 100% center;
+    height:100vh;
+    background-size: cover;
+}
+
+hr{
+    max-width: 90%;
+    margin:10px auto;
+}
+
+
+#corpo > section{
+    margin-top: 15px;
+}
+
+#corpo > section:not(:last-child) > hr{
+    max-width: 70%;
+}
+#corpo > section:first-child > hr{
+    max-width: 60%;
+}
+
+#corpo > section:first-child{
+    margin-top:0px;
+}
+
+#corpo > section:last-child > h2{
+    letter-spacing: 2px;
+}
+
+/* Vantagens */
+#vantagens{
+    padding: 20px 0px; 
+}
+
+.vantagem--item > a{
+    font-size: 0.9em;
+}
+
+.icone{
+    margin:auto auto 10px auto;
+    height: 50px;width: 30%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#icone-calendario{background-image: url("../../../recursos/imagens/home/icone-calendario.png");}
+#icone-celular{background-image: url("../../../recursos/imagens/home/icone-celular.png");}
+#icone-checkpoint{background-image: url("../../../recursos/imagens/home/icone-checkpoint.png");}
+
+/* Tres colunas em instituições*/
+.tres--colunas{
+    grid-template-columns: 33% 33% 33%;
+    grid-template-rows: 50px 50px;
+}
+
+.tres--colunas > p {
+    margin-top: 20px;
+}

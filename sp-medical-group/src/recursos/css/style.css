@@ -1,5 +1,174 @@
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
+/*
+Cores :
+Cinza
+    #8C8C8C
+    #DBDBDB
+    #AAAAAA
+    #F6F6F6
+    #FFFFFF
+    #B8B8B8
+Azul 
+    #A3CFE7
+    #95BFD6
+    #86A7BA
+*/
+
 *{
     box-sizing: border-box;
     margin:0px;
     padding:0px;
+    font-family: 'Quicksand';
+    color: #8C8C8C;
+}
+
+/*Tags*/
+
+a{
+    text-decoration: none;
+}
+
+a:hover{
+    color:#B8B8B8;
+}
+
+p , span, input::placeholder{
+    letter-spacing: 5px;
+    font-size: 14px;
+}
+p{
+    letter-spacing: 1px;  
+}
+
+span{
+    text-decoration: none;
+    letter-spacing: 0px;
+}
+
+h1, h2 , h3 , h4 ,h5 ,h6 {
+    font-weight: 400;
+    letter-spacing: 5px;
+}
+
+h2{
+    font-size: 1.250em;
+}
+
+h3 , h4 , h5 , h6{
+    letter-spacing: 1px;
+}
+
+input{
+    border:none;
+    border-bottom: 1px solid #DBDBDB;
+    margin-top: 20px;
+    padding-left: 2px;
+    padding-bottom: 3px;
+}
+
+input:not([type=submit]):focus{
+    outline: none;
+    border-bottom: 1px solid #AAAAAA;
+}
+
+input:not([type=submit]):focus:invalid{
+    outline: none;
+    border-bottom: 1px solid red;
+}
+
+input::placeholder{
+    font-size: 1.05em;
+}
+
+input[type=submit]{
+    margin: 30px auto 0px auto;
+    padding: 10px 10px;
+    width: 70%;
+    border-radius: 5px;
+    
+    background-color: #A3CFE7;
+    color:#FFFFFF;
+    letter-spacing: 5px;
+}
+
+input[type=submit]:hover{
+    cursor: pointer;
+    background-color: #95BFD6;
+}
+
+input[type=submit]:focus{
+    outline: none;
+    background-color: #86A7BA;
+}
+/* Grid*/
+.grid--container{
+    display: grid;
+}
+
+.grid--container-corpo{
+    grid-template-columns: 50% 50%;
+}
+
+.grid--container-cabecalho{
+    grid-template-columns: 70% 10% 10% 10%;
+}
+
+.grid--container-informacoes{
+    grid-template-columns: 33% 33% 33%;
+}
+
+/* Sombra*/
+.sombreado{
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 4px 11px;
+}
+
+/* Icone SP medical group*/
+.icone--spmedgroup{
+    background: url("../imagens/publicas/icon-login.png") no-repeat center center;
+    background-size: contain;
+}
+
+/* Cabecalho */
+#cabecalho{
+    padding: 10px 0px;
+}
+
+#cabecalho nav{
+    padding-top:10%;
+    text-align: center;
+}
+
+#cabecalho a{
+    text-align: center;
+    font-size: 1.15em;
+}
+
+#cabecalho .icone--spmedgroup{
+    height: 50px;
+    width: 10%;
+    text-align: left;
+}
+/* Corpo */
+
+.corpo--centralizado{
+    margin: auto;
+    text-align: center;
+    padding: 5% 5%;
+    min-height: 85vh;
+    max-width: 70%;
+}
+
+/* Feedback */
+.mensagem--erro{
+    color:red;
+    margin-top: 20px;
+}
+
+.link{
+    margin-top: 20px;
+    text-decoration:underline;
+}
+
+.link:hover{
+    text-decoration:none;
 }
