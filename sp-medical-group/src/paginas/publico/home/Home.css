@@ -2,27 +2,12 @@
     background: #F6F6F6 url("../../../recursos/imagens/home/doctor-medical-medicine-health.jpeg") no-repeat 100% center;
     height:100vh;
     background-size: cover;
-}
+}   
 
-hr{
-    max-width: 90%;
-    margin:10px auto;
-}
-
-
-#corpo > section{
-    margin-top: 15px;
-}
-
-#corpo > section:not(:last-child) > hr{
-    max-width: 70%;
-}
-#corpo > section:first-child > hr{
-    max-width: 60%;
-}
-
-#corpo > section:first-child{
-    margin-top:0px;
+#corpo{
+    display: grid;
+    grid-row-gap: 10px;
+    grid-template-rows: 30% 40% 30%;
 }
 
 #corpo > section:last-child > h2{

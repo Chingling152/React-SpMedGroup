@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Quicksand');
+/* @import url('https://fonts.googleapis.com/css?family=Lora'); */
 /*
 Cores :
 Cinza
@@ -12,6 +13,7 @@ Azul
     #A3CFE7
     #95BFD6
     #86A7BA
+    #A1CCE4
 */
 
 *{
@@ -20,7 +22,12 @@ Azul
     padding:0px;
     font-family: 'Quicksand';
     color: #8C8C8C;
+    /* color: #FFFFFF; */
 }
+/* 
+#root{
+    background-color: #8C8C8C;
+} */
 
 /*Tags*/
 
@@ -36,6 +43,7 @@ p , span, input::placeholder{
     letter-spacing: 5px;
     font-size: 14px;
 }
+
 p{
     letter-spacing: 1px;  
 }
@@ -58,6 +66,18 @@ h3 , h4 , h5 , h6{
     letter-spacing: 1px;
 }
 
+hr{
+    max-width: 90%;
+    margin:10px auto;
+}
+
+/* Label */
+
+label{
+    margin-top:10px;
+}
+
+/* inputs */
 input{
     border:none;
     border-bottom: 1px solid #DBDBDB;
@@ -80,6 +100,7 @@ input::placeholder{
     font-size: 1.05em;
 }
 
+/* Botão formulario */
 input[type=submit]{
     margin: 30px auto 0px auto;
     padding: 10px 10px;
@@ -131,6 +152,7 @@ input[type=submit]:focus{
 /* Cabecalho */
 #cabecalho{
     padding: 10px 0px;
+    /* background-color:#FFFFFF; */
 }
 
 #cabecalho nav{
@@ -154,8 +176,10 @@ input[type=submit]:focus{
     margin: auto;
     text-align: center;
     padding: 5% 5%;
-    min-height: 85vh;
+    min-height: 90vh;
+    max-height: 90vh;
     max-width: 70%;
+    overflow: hidden;
 }
 
 /* Feedback */
@@ -164,6 +188,17 @@ input[type=submit]:focus{
     margin-top: 20px;
 }
 
+.mensagem--aviso{
+    color:#8C8C8C;
+    margin-top: 20px;
+}
+
+.mensagem--aviso-grande{
+    color:#8C8C8C;
+    margin: 20px auto;
+}
+
+/* Link */
 .link{
     margin-top: 20px;
     text-decoration:underline;
@@ -171,4 +206,45 @@ input[type=submit]:focus{
 
 .link:hover{
     text-decoration:none;
+}
+
+/* Botão */
+button{
+    padding:2%;
+    margin:10px 0px;
+
+    border:none;
+    border-radius: 10px;
+    background-color: #95BFD6;
+    color:#FFFFFF;
+
+    cursor: pointer;
+}
+
+button:hover{
+    background-color: #A1CCE4;
+}
+
+button:active , button:focus{
+    outline: none;
+}
+
+/* Formularios */
+
+.corpo--formulario {
+    padding: 3% 5%;
+    width: 45%;
+    min-height: 70%;
+}
+
+.corpo--formulario > .icone--spmedgroup{
+    height: 120px;
+    width: 100%;
+    margin-bottom: 8%;
+}
+
+.corpo--formulario > form{
+    grid-template-columns: 100%;
+    margin-top: 8%;
+    margin-bottom:5%;
 }

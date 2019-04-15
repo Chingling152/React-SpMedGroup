@@ -30,7 +30,6 @@ import CadastrarMedico from "./paginas/admin/medicos/CadastrarMedico";
 import CadastrarConsulta from "./paginas/admin/consultas/CadastrarConsulta";
 import CadastrarInstituicao from "./paginas/admin/instituicao/CadastrarInstituicao";
 
-import AlterarUsuario from "./paginas/admin/usuarios/AlterarUsuario";
 import AlterarPaciente from "./paginas/admin/pacientes/AlterarPaciente";
 import AlterarMedico from "./paginas/admin/medicos/AlterarMedico";
 import AlterarConsulta from "./paginas/admin/consultas/AlterarConsulta";
@@ -55,7 +54,6 @@ const rotas = (
                 <Route path="/cadastrar/medico" component={CadastrarMedico}/>
                 <Route path="/cadastrar/consulta" component={CadastrarConsulta}/>
                 <Route path="/cadastrar/instituicao" component={CadastrarInstituicao}/>
-                <Route path="/alterar/usuario" component={AlterarUsuario}/>
                 <Route path="/alterar/paciente" component={AlterarPaciente}/>
                 <Route path="/alterar/medico" component={AlterarMedico}/>
                 <Route path="/alterar/consulta" component={AlterarConsulta}/>
