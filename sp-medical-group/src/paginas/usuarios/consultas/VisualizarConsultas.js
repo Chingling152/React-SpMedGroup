@@ -37,7 +37,7 @@ class VisualizarConsulta extends Component {
 				}
 			}
 		}
-		console.log(this.state.consulta);
+		
 	}
 	render() {
 		return (

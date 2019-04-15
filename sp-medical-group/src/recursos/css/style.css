@@ -81,7 +81,7 @@ label{
 input{
     border:none;
     border-bottom: 1px solid #DBDBDB;
-    margin-top: 20px;
+    /* margin-top: 20px; */
     padding-left: 2px;
     padding-bottom: 3px;
 }
@@ -102,7 +102,7 @@ input::placeholder{
 
 /* Botão formulario */
 input[type=submit]{
-    margin: 30px auto 0px auto;
+    margin: 0px auto 0px auto;
     padding: 10px 10px;
     width: 70%;
     border-radius: 5px;
@@ -185,12 +185,10 @@ input[type=submit]:focus{
 /* Feedback */
 .mensagem--erro{
     color:red;
-    margin-top: 20px;
 }
 
 .mensagem--aviso{
     color:#8C8C8C;
-    margin-top: 20px;
 }
 
 .mensagem--aviso-grande{
@@ -200,7 +198,6 @@ input[type=submit]:focus{
 
 /* Link */
 .link{
-    margin-top: 20px;
     text-decoration:underline;
 }
 
@@ -233,7 +230,7 @@ button:active , button:focus{
 
 .corpo--formulario {
     padding: 3% 5%;
-    width: 45%;
+    min-width: 45%;
     min-height: 70%;
 }
 
@@ -245,6 +242,15 @@ button:active , button:focus{
 
 .corpo--formulario > form{
     grid-template-columns: 100%;
+    grid-row-gap: 20px;
     margin-top: 8%;
     margin-bottom:5%;
+}
+
+.corpo--formulario#cadastro{
+    width: 50%;
+}
+
+.corpo--formulario#cadastro > form{
+    grid-row-gap: 15px;
 }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import { Cabecalho } from '../../../services/Cabecalho';
 import TituloSublinhado from '../../../componentes/titulos/TituloSublinhado';
 import MensagemErro from '../../../componentes/feedback/MensagemErro';
@@ -9,7 +10,7 @@ class CadastrarUsuario extends Component {
 			<div>
 				{Cabecalho("")}
 				<main className="grid--container grid--container-corpo">
-					<div className="sombreado corpo--centralizado corpo--formulario">
+					<div className="sombreado corpo--centralizado corpo--formulario" id="cadastro">
 						<TituloSublinhado mensagem="Cadastrar usuario" tamanho="90%"/>
 						<div className="icone--spmedgroup"></div>
 						<form className="grid--container grid--container-corpo">
