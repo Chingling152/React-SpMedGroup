@@ -5,7 +5,7 @@ class AreaAdmin extends Component {
 	render() {
 		return (
 			<div className="App">
-				{Cabecalho("")}
+				{Cabecalho()}
 				<div className="sombreado corpo--centralizado corpo--formulario">
 					<h1>O que deseja cadastrar?</h1>
 					<nav className="opcoes--cadastrar">

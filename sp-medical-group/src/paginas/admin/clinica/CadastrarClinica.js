@@ -8,7 +8,7 @@ class CadastrarClinica extends Component {
 	render() {
 		return (
 			<div className="App">
-				{Cabecalho("")}
+				{Cabecalho()}
 				<main className="grid--container grid--container-corpo">
 					<div className="sombreado corpo--centralizado corpo--formulario cadastro">
 						<h3>CADASTRAR CLINICA</h3>

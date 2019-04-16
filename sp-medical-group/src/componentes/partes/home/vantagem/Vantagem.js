@@ -8,7 +8,7 @@ class Vantagem extends Component {
 		return (
 			<div className="vantagem--item">
 				<div id = {this.props.icone} className="icone"></div>
-				<a href={this.props.link} >{this.props.mensagem}</a>
+				<a href={this.props.link} onClick={this.props.click}>{this.props.mensagem}</a>
 			</div>
 		);
 	}

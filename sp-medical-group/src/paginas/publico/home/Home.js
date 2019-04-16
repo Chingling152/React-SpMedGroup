@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import "./Home.css";
 
-import TituloSublinhado from '../../../componentes/titulos/TituloSublinhado';
+import TituloSublinhado from '../../../componentes/partes/titulos/TituloSublinhado';
 import Vantagem from '../../../componentes/partes/home/vantagem/Vantagem';
 import { Cabecalho } from '../../../services/Cabecalho';
 
@@ -11,7 +11,7 @@ class Home extends Component {
 		return (
 			<div className="App">
 				{
-					Cabecalho("")
+					Cabecalho()
 				}
 				<main className="grid--container grid--container-corpo">
 					<div className="sombreado corpo--centralizado"  >
@@ -24,9 +24,9 @@ class Home extends Component {
 							<section>
 								<TituloSublinhado mensagem="Sobre nosso produto" tamanho="70%" />
 								<div className="grid--container grid--container-informacoes">
-									<Vantagem mensagem="Receba notificações no seu celular" icone="icone-celular" link="/" />
-									<Vantagem mensagem="Veja todas as suas consultas" icone="icone-calendario" link="/" />
-									<Vantagem mensagem="Saiba como chegar ao local de suas consultas" icone="icone-checkpoint" link="/" />
+									<Vantagem mensagem="Receba notificações no seu celular" icone="icone-celular" click={()=>alert("Ainda estamos trabalhando nisso")}/>
+									<Vantagem mensagem="Veja todas as suas consultas" icone="icone-calendario" link="/minha-area/consultas" />
+									<Vantagem mensagem="Saiba como chegar ao local de suas consultas" icone="icone-checkpoint" click={()=>alert("Ainda estamos trabalhando nisso")} />
 								</div>
 								<a href="/login" className="link">Fazer Login</a>
 							</section>

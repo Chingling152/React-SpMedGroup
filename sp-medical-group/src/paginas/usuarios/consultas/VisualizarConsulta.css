@@ -62,3 +62,7 @@
     row-gap: 4px;
     grid-template-rows: 20% 20% 22% 30%;
 }
+
+.informacoes--paciente , .informacoes--medico{
+    grid-row-gap: 10px;
+}

@@ -8,7 +8,7 @@ class CadastrarEspecialidade extends Component {
 	render() {
 		return (
 			<div className="App">
-				{Cabecalho("")}
+				{Cabecalho()}
 				<main className="grid--container grid--container-corpo">
 					<div className="sombreado corpo--centralizado corpo--formulario cadastro">
 						{/* <div className="icone--spmedgroup"></div> */}

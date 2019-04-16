@@ -20,6 +20,7 @@
 }
 
 .vantagem--item > a{
+    cursor: pointer;
     font-size: 0.9em;
 }
 

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import "./VisualizarConsulta.css";
 
 import MensagemAviso from '../../../componentes/feedback/MensagemAviso';
-import TituloSublinhado from '../../../componentes/titulos/TituloSublinhado';
+import TituloSublinhado from '../../../componentes/partes/titulos/TituloSublinhado';
 import Consulta from '../../../componentes/partes/usuario/visualizar-consultas/Consulta';
 import ConsultaDetalhada from '../../../componentes/partes/usuario/visualizar-consultas/ConsultaDetalhada';
 import { Cabecalho } from '../../../services/Cabecalho';
@@ -43,7 +43,7 @@ class VisualizarConsulta extends Component {
 		return (
 			<div className="App">
 				{
-					Cabecalho("")
+					Cabecalho()
 				}
 				<main className="grid--container grid--container-corpo">
 					<div className="corpo--consultas-container">
