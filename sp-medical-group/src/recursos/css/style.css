@@ -14,6 +14,8 @@ Azul
     #95BFD6
     #86A7BA
     #A1CCE4
+Verde
+    #D4F0DB
 */
 
 *{
@@ -70,13 +72,11 @@ hr{
     max-width: 90%;
     margin:10px auto;
 }
-
 /* Label */
-
 label{
-    margin-top:10px;
+    text-align: left;
+    font-weight: 600;
 }
-
 /* inputs */
 input{
     border:none;
@@ -98,6 +98,18 @@ input:not([type=submit]):focus:invalid{
 
 input::placeholder{
     font-size: 1.05em;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none;
+}
+
+/* Text areas */
+textarea{
+    resize: none;
+    width: 300px;
+    height: 240px;
 }
 
 /* Botão formulario */
@@ -187,6 +199,12 @@ input[type=submit]:focus{
     color:red;
 }
 
+.mensagem--sucesso{
+    font-size: 15px;
+    font-weight: 600;
+    color:rgb(115, 223, 142);
+}
+
 .mensagem--aviso{
     color:#8C8C8C;
 }
@@ -247,10 +265,59 @@ button:active , button:focus{
     margin-bottom:5%;
 }
 
-.corpo--formulario#cadastro{
+/* Especifico para cadastro */
+.corpo--formulario.cadastro{
     width: 50%;
+    min-height: 30%;
 }
 
-.corpo--formulario#cadastro > form{
+.corpo--formulario.cadastro > form{
     grid-row-gap: 15px;
+}
+
+/* Tabela */
+.tabela-corpo{
+    overflow-y: auto;
+    height: 653px;
+} 
+
+.tabela{
+    margin: auto;
+    min-width: 90%;
+    border-collapse: collapse;
+    cursor: default;
+    table-layout: fixed;
+    text-align: left;
+}
+
+.tabela td{
+    padding: 10px;
+}
+
+.tabela thead td {
+    background-color: #95BFD6;
+    color:#FFFFFF;
+}
+
+.tabela tr:nth-child(even){
+    color:#FFFFFF;
+    background-color: #D4F0DB;
+}
+
+/* Admin */
+.opcoes--cadastrar{
+    margin: 20px auto;
+    display: grid;
+    grid-row-gap: 10px;
+}
+
+.opcoes--cadastrar a{
+    margin: auto;
+    width: 30%;
+    font-size: 1.2em;
+    border: 1px solid #B8B8B8;
+}
+
+.opcoes--cadastrar a:hover{
+    border: 1px solid #8C8C8C;
 }

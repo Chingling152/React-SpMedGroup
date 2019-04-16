@@ -28,12 +28,8 @@ import CadastrarUsuario from "./paginas/admin/usuarios/CadastrarUsuario";
 import CadastrarPaciente from "./paginas/admin/pacientes/CadastrarPaciente";
 import CadastrarMedico from "./paginas/admin/medicos/CadastrarMedico";
 import CadastrarConsulta from "./paginas/admin/consultas/CadastrarConsulta";
-import CadastrarInstituicao from "./paginas/admin/instituicao/CadastrarInstituicao";
-
-import AlterarPaciente from "./paginas/admin/pacientes/AlterarPaciente";
-import AlterarMedico from "./paginas/admin/medicos/AlterarMedico";
-import AlterarConsulta from "./paginas/admin/consultas/AlterarConsulta";
-import AlterarInstituicao from "./paginas/admin/instituicao/AlterarInstituicao";
+import CadastrarClinica from "./paginas/admin/clinica/CadastrarClinica";
+import CadastrarEspecialidade from './paginas/admin/especialidades/CadastrarEspecialidade';
 
 const rotas = (
     <BrowserRouter>
@@ -48,16 +44,13 @@ const rotas = (
 
                 <Route path="/minha-area/alterar-consulta" component={AdicionarDescricao}/>
                 
-                <Route path="/area-administrador" component={AreaAdmin}/>
-                <Route path="/cadastrar/usuario" component={CadastrarUsuario}/>
-                <Route path="/cadastrar/paciente" component={CadastrarPaciente}/>
-                <Route path="/cadastrar/medico" component={CadastrarMedico}/>
-                <Route path="/cadastrar/consulta" component={CadastrarConsulta}/>
-                <Route path="/cadastrar/instituicao" component={CadastrarInstituicao}/>
-                <Route path="/alterar/paciente" component={AlterarPaciente}/>
-                <Route path="/alterar/medico" component={AlterarMedico}/>
-                <Route path="/alterar/consulta" component={AlterarConsulta}/>
-                <Route path="/alterar/instituicao" component={AlterarInstituicao}/>
+                <Route path="/admin" component={AreaAdmin}/>
+                <Route path="/admin/cadastrar/usuario" component={CadastrarUsuario}/>
+                <Route path="/admin/cadastrar/paciente" component={CadastrarPaciente}/>
+                <Route path="/admin/cadastrar/medico" component={CadastrarMedico}/>
+                <Route path="/admin/cadastrar/consulta" component={CadastrarConsulta}/>
+                <Route path="/admin/cadastrar/clinica" component={CadastrarClinica}/>
+                <Route path="/admin/cadastrar/especialidade" component={CadastrarEspecialidade}/>
 
                 <Route exact path="/sem-permissao" component={SemPermissao}/>
 

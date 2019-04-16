@@ -9,7 +9,7 @@ import { Cabecalho } from '../../../services/Cabecalho';
 class Home extends Component {
 	render() {
 		return (
-			<div>
+			<div className="App">
 				{
 					Cabecalho("")
 				}

@@ -1,41 +1,63 @@
 import React, { Component } from 'react';
 
 import { Cabecalho } from '../../../services/Cabecalho';
-import TituloSublinhado from '../../../componentes/titulos/TituloSublinhado';
 import MensagemErro from '../../../componentes/feedback/MensagemErro';
+import MensagemSucesso from '../../../componentes/feedback/MensagemSucesso';
 
 class CadastrarUsuario extends Component {
 	render() {
 		return (
-			<div>
+			<div className="App">
 				{Cabecalho("")}
 				<main className="grid--container grid--container-corpo">
-					<div className="sombreado corpo--centralizado corpo--formulario" id="cadastro">
-						<TituloSublinhado mensagem="Cadastrar usuario" tamanho="90%"/>
-						<div className="icone--spmedgroup"></div>
+					<div className="sombreado corpo--centralizado corpo--formulario cadastro">
+						{/* <div className="icone--spmedgroup"></div> */}
+						<h3>CADASTRAR USUARIO</h3>
 						<form className="grid--container grid--container-corpo">
-							<input type="text" id="nome-usuario" placeholder="Nome"/>
-							<MensagemErro mensagem="Numero de caracteres invalido"/>
+							<label htmlFor="email-usuario">Email</label>
+							<input type="email" id="email-usuario" placeholder="Email" maxLength="200" required />
+							<MensagemErro mensagem="" />
 
-    						<input type="email" id="email-usuario" placeholder="Email"/>
-							<MensagemErro mensagem="Numero de caracteres invalido"/>
+							<label htmlFor="senha-usuario">Senha</label>
+							<input type="text" id="senha-usuario" placeholder="Senha" minLength="8" maxLength="200" required />
+							<MensagemErro mensagem="" />
 
-    						<input type="text" id="senha-usuario" placeholder="Senha"/>
-							<MensagemErro mensagem="Numero de caracteres invalido"/>
-							<label htmlFor="">Tipo de usuario</label>
-							<select name="tipo-usuario" id="">
-								<option value="Paciente" defaultValue>Paciente</option>
+							<label htmlFor="tipo-usuario">Tipo de usuario</label>
+							<select name="tipo-usuario" id="tipo-usuario" required>
+								<option value="Paciente">Paciente</option>
 								<option value="Administrador">Administrador</option>
 								<option value="Medico">Medico</option>
-    						</select>
-							<MensagemErro mensagem="O Usuario precisa ter um nivel de privilegio"/>
-							<input type="submit" value="Cadastrar"/>
+							</select>
+							<MensagemErro mensagem="" />
+							<input type="submit" value="Cadastrar" />
+							<MensagemSucesso mensagem="Pi"/>
 						</form>
 					</div>
-					<div className="sombreado corpo--centralizado"></div>
+					<div className="sombreado tabela-corpo">
+						<table className="tabela">
+							<thead>
+								<tr>
+									<td>#</td>
+									<td>Email</td>
+									<td>Senha</td>
+									<td>Tipo Usuario</td>
+									<td>Alterar</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr key={100}>
+									<td>100</td>
+									<td>Email@usuario.com</td>
+									<td>Senha</td>
+									<td>Tipo Usuario</td>
+									<td><a className="link" href="?">Alterar</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</main>
 			</div>
-    	);
+		);
 	}
 }
 
