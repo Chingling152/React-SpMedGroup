@@ -3,13 +3,15 @@ import React, { Component } from 'react';
 import "./Login.css";
 
 import MensagemErro from '../../../componentes/feedback/MensagemErro';
+import ApiService from '../../../services/ApiService';
 
 class Login extends Component {
 	constructor(){
 		super();
 		this.state = {
 			email:"",
-			senha:""
+			senha:"",
+			erro : ""
 		};
 	}
 
@@ -19,6 +21,42 @@ class Login extends Component {
 
 	definirSenha(event){
 		this.setState({senha:event.target.value});
+	}
+
+	loginUsuario(event){
+		event.preventDefault();
+		ApiService.chamada("Usuario/Login")
+		.Login(JSON.stringify(
+			{ 
+				email : this.state.email,
+				senha:this.state.senha 
+			})
+		)
+		.then(resposta  =>{ 
+			switch(resposta.status){
+				case 200:
+					resposta.json().then(
+						resultado => {
+							localStorage.setItem("UsuarioSpMedGroup",resultado.token);
+						}
+					)
+					break;
+				case 400:
+				case 404:
+					resposta.json().then(
+						resultado => 
+							this.setState(
+								{
+									erro:resultado
+								}
+							)
+						)
+					break;
+				default:
+					break;
+			}
+		})
+		.catch(erro=>console.log(erro));
 	}
 
 	render() {
@@ -32,8 +70,8 @@ class Login extends Component {
 						<input type="email" placeholder="email" id="input--login-email" value={this.state.email} onChange={this.definirEmail.bind(this)} maxLength="200" required />
 						<input type="password" placeholder="senha" id="input--login-senha" value={this.state.senha} onChange={this.definirSenha.bind(this)} maxLength="200" required />
 						<a className="link" href="/login" onClick={()=>{alert("Contate o administrador no telefone abaixo\n(11) 1111-1111")}}>Esqueceu sua senha?</a>
-						<input type="submit" value="LOGIN" className = "sombreado"/>
-						<MensagemErro/>
+						<input type="submit" value="LOGIN" className = "sombreado" onClick={this.loginUsuario.bind(this)}/>
+						<MensagemErro mensagem={this.state.erro}/>
 					</form>
 					<a href="/" className="link">Voltar</a>
 				</div>

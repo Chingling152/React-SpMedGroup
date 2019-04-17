@@ -153,6 +153,7 @@ input[type=submit]:focus{
 /* Sombra*/
 .sombreado{
     box-shadow: rgba(0, 0, 0, 0.25) 0px 4px 11px;
+    background-color: white;
 }
 
 /* Icone SP medical group*/
@@ -217,6 +218,7 @@ input[type=submit]:focus{
 /* Link */
 .link{
     text-decoration:underline;
+    cursor: pointer;
 }
 
 .link:hover{
@@ -296,11 +298,9 @@ button:active , button:focus{
 
 .tabela thead td {
     background-color: #95BFD6;
-    color:#FFFFFF;
 }
 
 .tabela tr:nth-child(even){
-    color:#FFFFFF;
     background-color: #D4F0DB;
 }
 

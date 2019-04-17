@@ -3,9 +3,10 @@ export const TipoUsuario = () =>{
 
     switch (tipoUsuario) {
         case null:
+        case undefined:
             return "Deslogado";
         default:
-            return tipoUsuario.TipoUsuario.toString();
+            return tipoUsuario.toString();
     }
 }
 
@@ -15,3 +16,5 @@ export const parseJwt = () =>{
     
     return JSON.parse(window.atob(base64));
 }
+
+//http://schemas.microsoft.com/ws/2008/06/identity/claims/role

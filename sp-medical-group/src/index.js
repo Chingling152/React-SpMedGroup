@@ -60,7 +60,7 @@ const rotas = (
 
                 <Route path="/minha-area/alterar-consulta" component={AdicionarDescricao}/>
                 
-                <Route path="/admin" component={AreaAdmin}/>
+                <Route exact path="/admin" component={AreaAdmin}/>
                 <Route path="/admin/cadastrar-usuario" component={CadastrarUsuario}/>
                 <Route path="/admin/cadastrar-paciente" component={CadastrarPaciente}/>
                 <Route path="/admin/cadastrar-medico" component={CadastrarMedico}/>
