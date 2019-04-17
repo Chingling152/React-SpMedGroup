@@ -1,4 +1,4 @@
-export const TipoUsuario = () =>{
+export const TokenUsuario = () =>{
     let tipoUsuario = localStorage.getItem("UsuarioSpMedGroup") ;
 
     switch (tipoUsuario) {

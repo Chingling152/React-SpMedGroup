@@ -40,6 +40,7 @@ class Login extends Component {
 							localStorage.setItem("UsuarioSpMedGroup",resultado.token);
 						}
 					)
+					
 					break;
 				case 400:
 				case 404:

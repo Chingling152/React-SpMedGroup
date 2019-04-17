@@ -280,12 +280,13 @@ button:active , button:focus{
 /* Tabela */
 .tabela-corpo{
     overflow-y: auto;
-    height: 653px;
+    height: 650px;
 } 
 
 .tabela{
     margin: auto;
     min-width: 90%;
+    max-width: 90%;
     border-collapse: collapse;
     cursor: default;
     table-layout: fixed;

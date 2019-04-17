@@ -3,8 +3,29 @@ import React, { Component } from 'react';
 import { Cabecalho } from '../../../services/Cabecalho';
 import MensagemErro from '../../../componentes/feedback/MensagemErro';
 import MensagemSucesso from '../../../componentes/feedback/MensagemSucesso';
+import ApiService from '../../../services/ApiService';
+import { TokenUsuario } from '../../../services/Autenticacao';
 
 class CadastrarMedico extends Component {
+
+	constructor(){
+		super();
+		this.state={
+			especialidades:[]
+		}
+	}
+
+	componentDidMount(){
+		this.buscarEspecialidades();
+	}
+
+	buscarEspecialidades(){
+		ApiService.chamada("Especialidade/Listar").Listar(TokenUsuario())
+			.then(resposta => resposta.json())
+			.then(resultado => this.setState({ especialidades: resultado }))
+			.catch(erro => erro);
+	}
+
 	render() {
 		return (
 			<div className="App">
@@ -30,7 +51,15 @@ class CadastrarMedico extends Component {
 
 								<label htmlFor="especialidade-medico">Especialidade</label>
 								<select name="especialidade" id="especialidade" required>
-									<option value="Vasos" defaultValue>Vasos</option>
+								{
+									this.state.especialidades.map(
+										i=>{
+											return (
+												<option key={i.id} value={i.id}>{i.nome}</option>
+											);
+										}
+									)
+								}
 								</select>
 								<MensagemErro mensagem="" />
 

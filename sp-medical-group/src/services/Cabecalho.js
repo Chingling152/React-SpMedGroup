@@ -2,10 +2,10 @@ import React from 'react';
 import CabecalhoAdmin from "../componentes/partes/publico/cabecalho/CabecalhoAdmin";
 import CabecalhoLogado from "../componentes/partes/publico/cabecalho/CabecalhoLogado";
 import CabecalhoDeslogado from "../componentes/partes/publico/cabecalho/CabecalhoDeslogado";
-import { TipoUsuario } from './Autenticacao';
+import { TokenUsuario } from './Autenticacao';
 
 export const Cabecalho = () => {
-    switch(TipoUsuario()){
+    switch(TokenUsuario()){
         case "Administrador":
             return(<CabecalhoAdmin/>);
         case "Medico":

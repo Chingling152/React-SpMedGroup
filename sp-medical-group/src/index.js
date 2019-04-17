@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 // Autenticação
 import {BrowserRouter,Route,Switch , Redirect} from "react-router-dom";
 import * as serviceWorker from './serviceWorker';
-import { TipoUsuario} from './services/Autenticacao';
+import { TokenUsuario} from './services/Autenticacao';
 
 //Estilização
 import './recursos/css/style.css';
@@ -34,17 +34,17 @@ import CadastrarConsulta from "./paginas/admin/consultas/CadastrarConsulta";
 import CadastrarClinica from "./paginas/admin/clinica/CadastrarClinica";
 import CadastrarEspecialidade from './paginas/admin/especialidades/CadastrarEspecialidade';
 
-const Administrador = ({ component: Component }) => (
-    <Route
-    render={props =>
-      TipoUsuario().TipoUsuario === "Administrador" ? (
-        <Component {...props} />
-      ) : (
-        <Redirect to={{ pathname: "/sem-permissao" }} />
-      )
-    }
-  />
-);
+// const Administrador = ({ component: Component }) => (
+//     <Route
+//     render={props =>
+//       TokenUsuario().TipoUsuario === "Administrador" ? (
+//         <Component {...props} />
+//       ) : (
+//         <Redirect to={{ pathname: "/sem-permissao" }} />
+//       )
+//     }
+//   />
+// );
 
 
 const rotas = (
