@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import BotaoLogout from './BotaoLogout';
 
 class CabecalhoLogado extends Component {
 	render() {
@@ -12,7 +13,7 @@ class CabecalhoLogado extends Component {
 					<a href="/minha-area/consultas">Minhas consultas</a>
 				</nav>
 				<nav>
-					<a href="/minha-area/meus-dados">Meus dados</a>
+					<BotaoLogout/>
 				</nav>
 			</div>
 		);

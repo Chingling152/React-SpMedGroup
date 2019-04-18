@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import BotaoLogout from './BotaoLogout';
 
 class CabecalhoAdmin extends Component {
 	render() {
@@ -9,7 +10,10 @@ class CabecalhoAdmin extends Component {
 					<a href="/">Pagina inicial</a>
 				</nav>
 				<nav>
-					<a href="?">Minha area</a>
+					<a href="/admin">Minha area</a>
+				</nav>
+				<nav>
+					<BotaoLogout/>
 				</nav>
 			</div>
 		);

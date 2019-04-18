@@ -22,7 +22,8 @@ class CadastrarUsuario extends Component {
 			,//usuario a ser alterado ou criado
 			acao: "CADASTRAR",
 			sucesso: "",
-			erros:[]
+			erros:[],
+			erro:""
 		}
 
 		//this.acaoAlterar.bind(this);
@@ -138,7 +139,7 @@ class CadastrarUsuario extends Component {
 								<option value="2">Medico</option>
 								<option value="100">Administrador</option>
 							</select>
-							<MensagemErro mensagem={this.state.erros.TipoUsuario} />
+							<MensagemErro mensagem={this.state.erros.nome} />
 
 							<input type="submit" value={this.state.acao} />
 							<MensagemSucesso mensagem={this.state.sucesso}/>

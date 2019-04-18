@@ -4,6 +4,7 @@ import "./Login.css";
 
 import MensagemErro from '../../../componentes/feedback/MensagemErro';
 import ApiService from '../../../services/ApiService';
+import { TokenUsuario } from '../../../services/Autenticacao';
 
 class Login extends Component {
 	constructor(){
@@ -13,6 +14,7 @@ class Login extends Component {
 			senha:"",
 			erro : ""
 		};
+		console.log(TokenUsuario());
 	}
 
 	definirEmail(event){
@@ -40,7 +42,7 @@ class Login extends Component {
 							localStorage.setItem("UsuarioSpMedGroup",resultado.token);
 						}
 					)
-					
+					this.props.history.push("/");
 					break;
 				case 400:
 				case 404:
