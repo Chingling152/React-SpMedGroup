@@ -1,5 +1,4 @@
 export default{
-    // Usados para requisições sem autenticação
     chamada(endpoint){
         const url = `http://localhost:5000/api/v1/${endpoint}`;
         return{
@@ -18,6 +17,14 @@ export default{
                     "Authorization": "Bearer " + token
                 }
             }),
+            Alterar: (token,corpo)=>fetch({
+                method:'PUT',
+                headers:{
+                    "Content-Type":"application/json",
+                    "Authorization": "Bearer " + token
+                },
+                body:corpo
+            }),
             Cadastrar: (token,corpo)=> fetch(url,{
                 method:'POST',
                 headers:{
@@ -26,14 +33,6 @@ export default{
                 },
                 body:corpo
             }),
-            Alterar: (token,corpo)=>fetch({
-                method:'PUT',
-                headers:{
-                    "Content-Type":"application/json",
-                    "Authorization": "Bearer " + token
-                },
-                body:corpo
-            })
         }
     }
 }

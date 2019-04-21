@@ -37,7 +37,7 @@ import CadastrarEspecialidade from './paginas/admin/especialidades/CadastrarEspe
 const Administrador = ({ component: Component }) => (
     <Route
     render={props =>
-      parseJwt().Role === "Administrador" ? (
+      parseJwt() !== null && parseJwt().Role === "Administrador" ? (
         <Component {...props} />
       ) : (
         <Redirect to={{ pathname: "/sem-permissao" }} />
@@ -49,10 +49,10 @@ const Administrador = ({ component: Component }) => (
 const Logado = ({ component: Component }) => (
     <Route
     render={props =>
-      parseJwt().Role === "Medico" || parseJwt().Role === "Paciente" ? (
+      parseJwt()!== null ? (
         <Component {...props} />
       ) : (
-        <Redirect to={{ pathname: "/sem-permissao" }} />
+        <Redirect to={{ pathname: "/login" }} />
       )
     }
   />

@@ -4,8 +4,8 @@ class InformacoesMedico extends Component {
 	render() {
 		return (
 			<div className="informacoes--medico grid--container" key={this.props.id}>
-				<p>{this.props.medico.nome}</p>
-				<p>{this.props.medico.especialidade}</p>
+				<p><b>Medico : </b>{this.props.medico.nome}</p>
+				<p><b>Especialidade : </b>{this.props.medico.idEspecialidadeNavigation.nome}</p>
 			</div>
 		);
 	}

@@ -5,7 +5,7 @@ import { Cabecalho } from '../../../services/Cabecalho';
 import MensagemErro from '../../../componentes/feedback/MensagemErro';
 import MensagemSucesso from '../../../componentes/feedback/MensagemSucesso';
 import ApiService from '../../../services/ApiService';
-import { TokenUsuario } from '../../../services/Autenticacao';
+import { TokenUsuario, parseJwt } from '../../../services/Autenticacao';
 
 class CadastrarClinica extends Component {
 	constructor() {
@@ -27,7 +27,11 @@ class CadastrarClinica extends Component {
 		}
 	}
 	componentDidMount() {
-		this.buscarClinicas();
+		if(parseJwt() !== null){
+			this.buscarClinicas();
+		}else{
+			this.history.push("/");
+		}
 	}
 
 	buscarClinicas() {

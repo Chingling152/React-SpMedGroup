@@ -20,10 +20,10 @@ class CadastrarUsuario extends Component {
 			senha: "",
 			tipoUsuario: 1
 			,//usuario a ser alterado ou criado
-			acao: "CADASTRAR",
+			acao: "Cadastrar",
 			sucesso: "",
-			erros:[],
-			erro:""
+			erros: [],
+			erro: ""
 		}
 
 		//this.acaoAlterar.bind(this);
@@ -38,6 +38,7 @@ class CadastrarUsuario extends Component {
 			.then(resposta => resposta.json())
 			.then(resultado => this.setState({ usuarios: resultado }))
 			.catch(erro => erro);
+
 	}
 
 	acaoAlterar(item) {
@@ -48,66 +49,56 @@ class CadastrarUsuario extends Component {
 				email: item.email,
 				senha: item.senha,
 				tipoUsuario: item.tipoUsuario,
-				acao: "ALTERAR"
+				acao: "Alterar"
 			}
 		);
 	}
-  
-	
+
+
 	Requisicao(event) {
 		event.preventDefault();
-		switch (this.state.acao) {
-			case "ALTERAR":
-				ApiService.chamada("Usuario/Alterar")
-					.Alterar(TokenUsuario(), JSON.stringify(this.state.usuario))
-					.then(resposta => resposta.json())
-					.catch(erro => console.error(erro));
-				break;
-			default:
-				ApiService.chamada("Usuario/Cadastrar")
-					.Cadastrar(TokenUsuario(), JSON.stringify({
-						Email: this.state.email,
-						Senha: this.state.senha,
-						TipoUsuario: this.state.tipoUsuario
-					}
-					))
-					.then(resposta => {
-						switch (resposta.status) {
-							case 200:
-								resposta.json().then(resultado => {
-									this.setState(
-										{
-											sucesso:resultado
-										}
-									)
-									this.buscarUsuarios();
-								})
-								break;
-							case 400:
-							case 404:
-								resposta.json().then( resultado =>{
-										this.setState({
-											erros:resultado
-										})
-									}
-								)				
-								break;
-							case 401:
-							case 403:
-								resposta.json().then( resultado =>
-									{
-										this.setState({erro:resultado})
-									}
-								)
-								break;
-							default:
-								break;
+		ApiService.chamada("Usuario/Cadastrar")
+			.Cadastrar(TokenUsuario(), JSON.stringify({
+				Email: this.state.email,
+				Senha: this.state.senha,
+				TipoUsuario: this.state.tipoUsuario
+			}
+			))
+			.then(resposta => {
+				switch (resposta.status) {
+					case 200:
+						resposta.json().then(resultado => {
+							this.setState(
+								{
+									sucesso: resultado
+								}
+							)
+							this.buscarUsuarios();
+						})
+						break;
+					case 400:
+					case 404:
+						resposta.json().then(resultado => {
+							this.setState({
+								erros: resultado
+							})
 						}
-					}
-					)
-					.catch(erro => console.error(erro));
-				break;
-		}
+						)
+						break;
+					case 401:
+					case 403:
+						resposta.json().then(resultado => {
+							this.setState({ erro: resultado })
+						}
+						)
+						break;
+					default:
+						break;
+				}
+			}
+			)
+			.catch(erro => console.error(erro));
+
 
 	}
 
@@ -116,13 +107,14 @@ class CadastrarUsuario extends Component {
 	alterarTipo = (event) => this.setState({ tipoUsuario: event.target.value });
 
 	render() {
+		console.log(this.state.usuarios);
 		return (
 			<div className="App">
 				{Cabecalho()}
 				<main className="grid--container grid--container-corpo">
 					<div className="sombreado corpo--centralizado corpo--formulario cadastro">
 						{/* <div className="icone--spmedgroup"></div> */}
-						<h3>{this.state.acao} USUARIO</h3>
+						<h3>{this.state.acao.toUpperCase()} USUARIO</h3>
 						<form className="grid--container grid--container-corpo" onSubmit={this.Requisicao.bind(this)}>
 
 							<label htmlFor="email-usuario">Email</label>
@@ -141,8 +133,8 @@ class CadastrarUsuario extends Component {
 							</select>
 							<MensagemErro mensagem={this.state.erros.nome} />
 
-							<input type="submit" value={this.state.acao} />
-							<MensagemSucesso mensagem={this.state.sucesso}/>
+							<input type="submit" value={this.state.acao.toUpperCase()} />
+							<MensagemSucesso mensagem={this.state.sucesso} />
 						</form>
 					</div>
 					<div className="sombreado tabela-corpo">

@@ -4,7 +4,6 @@ import "./Login.css";
 
 import MensagemErro from '../../../componentes/feedback/MensagemErro';
 import ApiService from '../../../services/ApiService';
-import { TokenUsuario } from '../../../services/Autenticacao';
 
 class Login extends Component {
 	constructor(){
@@ -14,7 +13,6 @@ class Login extends Component {
 			senha:"",
 			erro : ""
 		};
-		console.log(TokenUsuario());
 	}
 
 	definirEmail(event){

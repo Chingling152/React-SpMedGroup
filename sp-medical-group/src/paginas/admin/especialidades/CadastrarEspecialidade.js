@@ -15,7 +15,7 @@ class CadastrarEspecialidade extends Component {
 			id:"",
 			especialidade: "",
 			//
-			acao: "CADASTRAR",
+			acao: "Cadastrar",
 			//feedback
 			sucesso: "",
 			erros: [],
@@ -34,7 +34,8 @@ class CadastrarEspecialidade extends Component {
 	enviarEspecialidade(event) {
 		event.preventDefault();
 
-		ApiService.chamada("Especialidade/Cadastrar").Cadastrar(TokenUsuario(), JSON.stringify({ nome: this.state.especialidade }))
+		ApiService.chamada("Especialidade/Cadastrar")
+			.Cadastrar(TokenUsuario(), JSON.stringify({ nome: this.state.especialidade }))
 			.then(resposta => {
 				switch (resposta.status) {
 					case 200:
@@ -88,13 +89,13 @@ class CadastrarEspecialidade extends Component {
 				<main className="grid--container grid--container-corpo">
 					<div className="sombreado corpo--centralizado corpo--formulario cadastro">
 						{/* <div className="icone--spmedgroup"></div> */}
-						<h3>{this.state.acao} ESPECIALIDADE</h3>
+						<h3>{this.state.acao.toUpperCase()} ESPECIALIDADE</h3>
 						<form className="grid--container grid--container-corpo" onSubmit={this.enviarEspecialidade.bind(this)}>
 							<label htmlFor="nome-especialidade">Nome</label>
 							<input type="text" id="nome-especialidade" placeholder="Nome" maxLength="200" required onChange={this.nomeEspecialidade.bind(this)} />
 							<MensagemErro mensagem={this.state.erros.Nome} />
 
-							<input type="submit" value={this.state.acao} />
+							<input type="submit" value={this.state.acao.toUpperCase()} />
 							<MensagemSucesso mensagem={this.state.sucesso} />
 						</form>
 					</div>

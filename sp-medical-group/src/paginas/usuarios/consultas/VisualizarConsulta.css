@@ -24,7 +24,7 @@
 }
 
 #consultas--container{
-    max-height: 65vh;
+    height: 65vh;
     overflow-x: hidden;
     overflow-y: scroll;
     border: 1px solid #88888857; 
@@ -61,6 +61,7 @@
     display: grid;
     row-gap: 4px;
     grid-template-rows: 20% 20% 22% 30%;
+    padding: 3% 5% 5% 5%;
 }
 
 .informacoes--paciente , .informacoes--medico{

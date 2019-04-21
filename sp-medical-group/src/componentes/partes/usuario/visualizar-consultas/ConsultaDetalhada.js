@@ -4,30 +4,88 @@ import TituloSublinhado from '../../titulos/TituloSublinhado';
 import InformacoesPaciente from '../../publico/informacoes/paciente/InformacoesPaciente';
 import InformacoesMedico from '../../publico/informacoes/medico/InformacoesMedico';
 import InformacoesClinica from '../../publico/informacoes/clinica/InformacoesClinica';
+import ApiService from '../../../../services/ApiService';
+import { TokenUsuario } from '../../../../services/Autenticacao';
 
 class ConsultaDetalhada extends Component {
 	constructor(props) {
-		super();
+		// props recebidas
+		// consulta (id data status paciente medico (clinica especialidade))
+		// tipoUsuario
+		super(props);
+
+		this.state = {
+			descricao: "",
+		}
+	
 	}
+
+	componentWillReceiveProps(){
+		this.setState({descricao:this.props.consulta.descricao});
+	}
+
+	alterarDescricao(event){
+		this.setState({
+			descricao: event.target.value
+		});
+	}
+
+	alterarConsulta(event){
+		console.log(JSON.stringify(
+			{
+				id: this.props.consulta.id,
+				idMedico: this.props.consulta.idMedico,
+				idPaciente: this.props.consulta.idPaciente,
+				dataConsulta: this.props.consulta.dataConsulta,
+				descricao: this.state.descricao,
+				statusConsulta: this.props.consulta.statusConsulta
+			}
+		));
+		ApiService.chamada("Consulta/Alterar").Alterar(TokenUsuario(),JSON.stringify(
+			{
+				id: this.props.consulta.id,
+				idMedico: this.props.consulta.idMedico,
+				idPaciente: this.props.consulta.idPaciente,
+				dataConsulta: this.props.consulta.dataConsulta,
+				descricao: this.state.descricao,
+				statusConsulta: this.props.consulta.statusConsulta
+			}
+		))
+		.then(resposta => {
+			console.log(resposta)
+			}
+		)
+		.catch(erro => console.log(erro));	
+		
+	}
+
 	render() {
-		if(this.props.consulta!= null){
-			const Usuario = this.props.medico?
+		if(this.props.consulta.length !== 0){
+			const Usuario = this.props.tipoUsuario === "Paciente"?
 			<div>
 				<TituloSublinhado mensagem="Medico" tamanho="50%" />
-				<InformacoesMedico medico={this.props.consulta.medico}/>
+				<InformacoesMedico medico={this.props.consulta.idMedicoNavigation}/>
 			</div>:
 			<div>
 				<TituloSublinhado mensagem="Paciente" tamanho="50%" />
-				<InformacoesPaciente paciente={this.props.consulta.paciente}/>
+				<InformacoesPaciente paciente={this.props.consulta.idPacienteNavigation}/>
 			</div>
 			;
 
-			const Funcionalidade = this.props.medico?
-				<div id="consulta--detalhada-funcionalidades" className="grid--container">
-					<button>Alterar descrição</button>
-				</div>
-			:
+			const Funcionalidade = this.props.tipoUsuario === "Medico"?
 				<div>
+					<div className="descricao--consulta">
+						<textarea value={this.state.descricao} onChange={this.alterarDescricao.bind(this)}/>
+						<button onClick={this.alterarConsulta.bind(this)}>Alterar descrição</button>
+					</div>
+				</div>
+			:this.props.consulta.descricao === ""? 
+				<section className="descricao--consulta">
+					<h1>Sem descrição</h1>
+				</section>
+				:
+				<div className="descricao--consulta">
+					<p>{this.props.consulta.descricao}</p>
 				</div>
 			;
 			return (
@@ -35,8 +93,8 @@ class ConsultaDetalhada extends Component {
 					<div>
 						<TituloSublinhado mensagem={"Consulta#" + this.props.consulta.id} tamanho="70%" />
 						<div className="informacoes--consulta">
-							<p>{this.props.consulta.data}</p>
-							<p>{this.props.consulta.situacao}</p>
+							<p> <b>Data da consulta :</b> {this.props.consulta.dataConsulta}</p>
+							<p> <b>Situação da consulta :</b> {this.props.consulta.statusConsulta}</p>
 						</div>
 					</div>
 					
@@ -44,22 +102,18 @@ class ConsultaDetalhada extends Component {
 
 					<div>
 						<TituloSublinhado mensagem="Local" tamanho="50%" />
-						<InformacoesClinica clinica={this.props.consulta.medico.clinica} />
+						<InformacoesClinica clinica={this.props.consulta.idMedicoNavigation.idClinicaNavigation} />
 					</div>
-
 					<div>
 						<TituloSublinhado mensagem="Descrição" tamanho="90%" />
-						<div className="descricao--consulta">
-							<p>{this.props.consulta.descricao}</p>
-						</div>
+						{Funcionalidade}
 					</div>
-					{Funcionalidade}
 				</section>
 			);
 		}else{
 			return (
 				<section id="consulta--detalhada-container" className="corpo--centralizado sombreado">
-						<TituloSublinhado mensagem={"Selecione uma consulta"} tamanho="70%" />
+					<TituloSublinhado mensagem={"Selecione uma consulta"} tamanho="70%" />
 				</section>
 			);
 		}
