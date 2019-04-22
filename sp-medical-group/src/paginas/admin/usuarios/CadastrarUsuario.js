@@ -5,8 +5,8 @@ import MensagemErro from '../../../componentes/feedback/MensagemErro';
 import MensagemSucesso from '../../../componentes/feedback/MensagemSucesso';
 
 import { Cabecalho } from '../../../services/Cabecalho';
-import { TokenUsuario } from '../../../services/Autenticacao';
 import ApiService from '../../../services/ApiService';
+import { parseJwt } from '../../../services/Autenticacao';
 
 
 class CadastrarUsuario extends Component {
@@ -25,27 +25,29 @@ class CadastrarUsuario extends Component {
 			erros: [],
 			erro: ""
 		}
-
-		//this.acaoAlterar.bind(this);
 	}
 
 	componentDidMount() {
-		this.buscarUsuarios();
+		if(parseJwt() !== null){
+			this.buscarUsuarios();
+		}else{
+			this.props.history.push("/");
+		}
 	}
 
 	buscarUsuarios() {
-		ApiService.chamada("Usuario/Listar").Listar(TokenUsuario())
+		ApiService.chamada("Usuario/Listar").Listar()
 			.then(resposta => resposta.json())
 			.then(resultado => this.setState({ usuarios: resultado }))
-			.catch(erro => erro);
+			.catch(erro => console.log(erro));
 
 	}
 
 	acaoAlterar(item) {
 		console.log(item);
-		//event.preventDefault();
-		this.state.setState(
+		this.setState(
 			{
+				id:item.id,
 				email: item.email,
 				senha: item.senha,
 				tipoUsuario: item.tipoUsuario,
@@ -54,11 +56,10 @@ class CadastrarUsuario extends Component {
 		);
 	}
 
-
 	Requisicao(event) {
 		event.preventDefault();
 		ApiService.chamada("Usuario/Cadastrar")
-			.Cadastrar(TokenUsuario(), JSON.stringify({
+			.Cadastrar(JSON.stringify({
 				Email: this.state.email,
 				Senha: this.state.senha,
 				TipoUsuario: this.state.tipoUsuario
@@ -93,6 +94,7 @@ class CadastrarUsuario extends Component {
 						)
 						break;
 					default:
+						console.log(resposta.json());
 						break;
 				}
 			}
@@ -107,7 +109,6 @@ class CadastrarUsuario extends Component {
 	alterarTipo = (event) => this.setState({ tipoUsuario: event.target.value });
 
 	render() {
-		console.log(this.state.usuarios);
 		return (
 			<div className="App">
 				{Cabecalho()}
@@ -118,11 +119,11 @@ class CadastrarUsuario extends Component {
 						<form className="grid--container grid--container-corpo" onSubmit={this.Requisicao.bind(this)}>
 
 							<label htmlFor="email-usuario">Email</label>
-							<input type="email" id="email-usuario" placeholder="Email" maxLength="200" required value={this.state.usuarios.email} onChange={this.alterarEmail.bind(this)} />
+							<input type="email" id="email-usuario" placeholder="Email" maxLength="200" required value={this.state.usuarios.email} onChange={this.alterarEmail.bind(this)}/>
 							<MensagemErro mensagem={this.state.erros.Email} />
 
 							<label htmlFor="senha-usuario">Senha</label>
-							<input type="text" id="senha-usuario" placeholder="Senha" minLength="2" maxLength="200" required value={this.state.usuarios.senha} onChange={this.alterarSenha.bind(this)} />			<MensagemErro mensagem="" />
+							<input type="text" id="senha-usuario" placeholder="Senha" minLength="2" maxLength="200" required value={this.state.usuarios.senha} onChange={(e) => this.setState({senha: e.target.value})}  />	
 							<MensagemErro mensagem={this.state.erros.Senha} />
 
 							<label htmlFor="tipo-usuario">Tipo de usuario</label>
@@ -157,7 +158,7 @@ class CadastrarUsuario extends Component {
 												<td>{i.email}</td>
 												<td>{i.senha}</td>
 												<td>{i.tipoUsuario}</td>
-												<td> <a className="link" onClick={this.acaoAlterar.bind(i)}>Alterar</a></td>
+												<td> <a className="link" onClick={()=> this.acaoAlterar(i)}>Alterar</a></td>
 											</tr>
 										);
 									}

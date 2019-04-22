@@ -100,8 +100,8 @@ input::placeholder{
     font-size: 1.05em;
 }
 
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
+input::-webkit-inner-spin-button, 
+input::-webkit-outer-spin-button{ 
   -webkit-appearance: none;
 }
 
@@ -291,6 +291,7 @@ button:active , button:focus{
     cursor: default;
     table-layout: fixed;
     text-align: left;
+    font-size: 13px;
 }
 
 .tabela td{
@@ -298,6 +299,7 @@ button:active , button:focus{
 }
 
 .tabela thead td {
+    color: white;
     background-color: #95BFD6;
 }
 

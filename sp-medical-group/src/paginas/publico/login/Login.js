@@ -4,6 +4,7 @@ import "./Login.css";
 
 import MensagemErro from '../../../componentes/feedback/MensagemErro';
 import ApiService from '../../../services/ApiService';
+import { parseJwt } from '../../../services/Autenticacao';
 
 class Login extends Component {
 	constructor(){
@@ -40,6 +41,7 @@ class Login extends Component {
 							localStorage.setItem("UsuarioSpMedGroup",resultado.token);
 						}
 					)
+					console.log(parseJwt());
 					this.props.history.push("/");
 					break;
 				case 400:
@@ -54,6 +56,7 @@ class Login extends Component {
 						)
 					break;
 				default:
+					console.log(resposta.json());
 					break;
 			}
 		})
@@ -67,11 +70,11 @@ class Login extends Component {
 				<div className="corpo--formulario corpo--centralizado sombreado">
 					<div className="icone--spmedgroup"></div>
 					<h3>LOGIN</h3>
-					<form className="grid--container grid--container-corpo">
+					<form className="grid--container grid--container-corpo" onSubmit={this.loginUsuario.bind(this)}>
 						<input type="email" placeholder="email" id="input--login-email" value={this.state.email} onChange={this.definirEmail.bind(this)} maxLength="200" required />
 						<input type="password" placeholder="senha" id="input--login-senha" value={this.state.senha} onChange={this.definirSenha.bind(this)} maxLength="200" required />
 						<a className="link" href="/login" onClick={()=>{alert("Contate o administrador no telefone abaixo\n(11) 1111-1111")}}>Esqueceu sua senha?</a>
-						<input type="submit" value="LOGIN" className = "sombreado" onClick={this.loginUsuario.bind(this)}/>
+						<input type="submit" value="LOGIN" className = "sombreado"/>
 						<MensagemErro mensagem={this.state.erro}/>
 					</form>
 					<a href="/" className="link">Voltar</a>

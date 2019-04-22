@@ -6,7 +6,7 @@ import MensagemErro from '../../../componentes/feedback/MensagemErro';
 import MensagemSucesso from '../../../componentes/feedback/MensagemSucesso';
 
 import ApiService from '../../../services/ApiService';
-import { TokenUsuario, parseJwt } from '../../../services/Autenticacao';
+import { parseJwt } from '../../../services/Autenticacao';
 
 class CadastrarPaciente extends Component {
 	constructor(){
@@ -47,7 +47,7 @@ class CadastrarPaciente extends Component {
 	acaoPaciente(event){
 		event.preventDefault();
 
-		ApiService.chamada("Paciente/Cadastrar").Cadastrar(TokenUsuario(),JSON.stringify({
+		ApiService.chamada("Paciente/Cadastrar").Cadastrar(JSON.stringify({
 			idUsuario: this.state.usuario,
 			nome:  this.state.nome,
 			rg:  this.state.rg,
@@ -93,7 +93,7 @@ class CadastrarPaciente extends Component {
 	}
 
 	buscarUsuarios() {
-		ApiService.chamada("Usuario/Listar/1").Listar(TokenUsuario())
+		ApiService.chamada("Usuario/Listar/1").Listar()
 			.then(resposta => resposta.json())
 			.then(resultado => {
 				this.setState({ usuarios: resultado.filter( i => i.paciente.length === 0)})
@@ -102,7 +102,7 @@ class CadastrarPaciente extends Component {
 	}
 
 	buscarPacientes() {
-		ApiService.chamada("Paciente/Listar").Listar(TokenUsuario())
+		ApiService.chamada("Paciente/Listar").Listar()
 			.then(resposta => resposta.json())
 			.then(resultado => this.setState({ pacientes: resultado }))
 			.catch(erro => erro);

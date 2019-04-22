@@ -85,7 +85,7 @@ class CadastrarMedico extends Component {
 	acaoMedico(event){
 		event.preventDefault();
 
-		ApiService.chamada("Medico/Cadastrar").Cadastrar(TokenUsuario(),JSON.stringify({
+		ApiService.chamada("Medico/Cadastrar").Cadastrar(JSON.stringify({
 			idUsuario: this.state.usuario,
 			nome:  this.state.nome,
 			crm:  this.state.crm,

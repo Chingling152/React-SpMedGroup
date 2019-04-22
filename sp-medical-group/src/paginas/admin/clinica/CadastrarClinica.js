@@ -5,14 +5,14 @@ import { Cabecalho } from '../../../services/Cabecalho';
 import MensagemErro from '../../../componentes/feedback/MensagemErro';
 import MensagemSucesso from '../../../componentes/feedback/MensagemSucesso';
 import ApiService from '../../../services/ApiService';
-import { TokenUsuario, parseJwt } from '../../../services/Autenticacao';
+import { parseJwt } from '../../../services/Autenticacao';
 
 class CadastrarClinica extends Component {
 	constructor() {
 		super();
 		this.state = {
 			clinicas: [],
-			id: "",
+			id: 0,
 			nomeFantasia: "",
 			endereco: "",
 			numero: "",
@@ -35,7 +35,7 @@ class CadastrarClinica extends Component {
 	}
 
 	buscarClinicas() {
-		ApiService.chamada("Clinica/Listar").Listar(TokenUsuario())
+		ApiService.chamada("Clinica/Listar").Listar()
 			.then(resposta => resposta.json())
 			.then(resultado => this.setState({ clinicas: resultado }))
 			.catch(erro => console.log(erro));
@@ -48,7 +48,7 @@ class CadastrarClinica extends Component {
 	acaoClinica(event) {
 		event.preventDefault();
 
-		ApiService.chamada("Clinica/Cadastrar").Cadastrar(TokenUsuario(), JSON.stringify({
+		ApiService.chamada("Clinica/Cadastrar").Cadastrar(JSON.stringify({
 			nomeFantasia: this.state.nomeFantasia,
 			endereco: this.state.endereco,
 			numero: this.state.numero,

@@ -1,3 +1,5 @@
+import { TokenUsuario } from "./Autenticacao";
+
 export default{
     chamada(endpoint){
         const url = `http://localhost:5000/api/v1/${endpoint}`;
@@ -10,26 +12,26 @@ export default{
                 body:corpo
             })
             ,
-            Listar:(token)=> fetch(url,{
+            Listar:()=> fetch(url,{
                 method:'GET',
                 headers:{
                     "Content-Type":"application/json",
-                    "Authorization": "Bearer " + token
+                    "Authorization": "Bearer " + TokenUsuario()
                 }
             }),
-            Alterar: (token,corpo)=>fetch({
+            Alterar: (corpo)=>fetch({
                 method:'PUT',
                 headers:{
                     "Content-Type":"application/json",
-                    "Authorization": "Bearer " + token
+                    "Authorization": "Bearer " + TokenUsuario()
                 },
                 body:corpo
             }),
-            Cadastrar: (token,corpo)=> fetch(url,{
+            Cadastrar: (corpo)=> fetch(url,{
                 method:'POST',
                 headers:{
                     "Content-Type":"application/json",
-                    "Authorization": "Bearer " + token
+                    "Authorization": "Bearer " + TokenUsuario()
                 },
                 body:corpo
             }),

@@ -35,7 +35,7 @@ class CadastrarEspecialidade extends Component {
 		event.preventDefault();
 
 		ApiService.chamada("Especialidade/Cadastrar")
-			.Cadastrar(TokenUsuario(), JSON.stringify({ nome: this.state.especialidade }))
+			.Cadastrar(JSON.stringify({ nome: this.state.especialidade }))
 			.then(resposta => {
 				switch (resposta.status) {
 					case 200:

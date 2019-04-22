@@ -64,7 +64,7 @@ class CadastrarConsulta extends Component {
 	acaoConsulta(event){
 			event.preventDefault();
 	
-			ApiService.chamada("Consulta/Cadastrar").Cadastrar(TokenUsuario(),JSON.stringify({
+			ApiService.chamada("Consulta/Cadastrar").Cadastrar(JSON.stringify({
 				idMedico: this.state.medico,
 				idPaciente: this.state.paciente,
 				dataConsulta: this.state.dataConsulta,
@@ -140,7 +140,7 @@ class CadastrarConsulta extends Component {
 									)
 								}
 							</select>
-							<MensagemErro mensagem="" />
+							<MensagemErro mensagem={this.state.erros.medico} />
 
 							<label htmlFor="paciente">Paciente</label>
 							<select name="paciente" id="paciente" required value={this.state.paciente} onChange={this.alterarPaciente.bind(this)}>
@@ -155,7 +155,7 @@ class CadastrarConsulta extends Component {
 									)
 								}
 							</select>
-							<MensagemErro mensagem="" />
+							<MensagemErro mensagem={this.state.erros.paciente} />
 
 							<label htmlFor="data-consulta">Data da consulta</label>
 							<input type="date" id="data-consulta" placeholder="Data da consulta" required value={this.state.dataConsulta} onChange={this.alterarData.bind(this)}/>
@@ -184,6 +184,7 @@ class CadastrarConsulta extends Component {
 									<td>Especialidade</td>
 									<td>Paciente</td>
 									<td>Clinica</td>
+									<td>Data Consulta</td>
 									<td>Situação</td>
 									{/* <td>Descrição</td> */}
 									<td>Alterar</td>
@@ -199,6 +200,7 @@ class CadastrarConsulta extends Component {
 												<td>{item.idMedicoNavigation.idEspecialidadeNavigation.nome}</td>
 												<td>{item.idPacienteNavigation.nome}</td>
 												<td>{item.idMedicoNavigation.idClinicaNavigation.nomeFantasia}</td>
+												<td>{item.dataConsulta}</td>
 												<td>{item.statusConsulta}</td>
 												{/* <td>{item}</td> */}
 												<td> <a className="link" onClick={this.acaoAlterar(item)}>Alterar</a></td>

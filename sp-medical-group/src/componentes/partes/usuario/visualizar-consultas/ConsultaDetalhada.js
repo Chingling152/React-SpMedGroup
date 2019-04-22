@@ -5,7 +5,6 @@ import InformacoesPaciente from '../../publico/informacoes/paciente/InformacoesP
 import InformacoesMedico from '../../publico/informacoes/medico/InformacoesMedico';
 import InformacoesClinica from '../../publico/informacoes/clinica/InformacoesClinica';
 import ApiService from '../../../../services/ApiService';
-import { TokenUsuario } from '../../../../services/Autenticacao';
 
 class ConsultaDetalhada extends Component {
 	constructor(props) {
@@ -28,10 +27,11 @@ class ConsultaDetalhada extends Component {
 		this.setState({
 			descricao: event.target.value
 		});
+		
 	}
 
 	alterarConsulta(event){
-		console.log(JSON.stringify(
+		console.log(
 			{
 				id: this.props.consulta.id,
 				idMedico: this.props.consulta.idMedico,
@@ -40,8 +40,8 @@ class ConsultaDetalhada extends Component {
 				descricao: this.state.descricao,
 				statusConsulta: this.props.consulta.statusConsulta
 			}
-		));
-		ApiService.chamada("Consulta/Alterar").Alterar(TokenUsuario(),JSON.stringify(
+		);
+		ApiService.chamada("Consulta/Alterar").Alterar(JSON.stringify(
 			{
 				id: this.props.consulta.id,
 				idMedico: this.props.consulta.idMedico,
@@ -56,8 +56,8 @@ class ConsultaDetalhada extends Component {
 			}
 		)
 		.catch(erro => console.log(erro));	
-		
 	}
+	
 
 	render() {
 		if(this.props.consulta.length !== 0){

@@ -7,7 +7,7 @@ import TituloSublinhado from '../../../componentes/partes/titulos/TituloSublinha
 import Consulta from '../../../componentes/partes/usuario/visualizar-consultas/Consulta';
 import ConsultaDetalhada from '../../../componentes/partes/usuario/visualizar-consultas/ConsultaDetalhada';
 import { Cabecalho } from '../../../services/Cabecalho';
-import { parseJwt, TokenUsuario } from '../../../services/Autenticacao';
+import { parseJwt } from '../../../services/Autenticacao';
 import ApiService from '../../../services/ApiService';
 
 class VisualizarConsulta extends Component {
@@ -30,7 +30,11 @@ class VisualizarConsulta extends Component {
 	}
 
 	componentDidMount() {
-		this.listarConsultas();
+		if(parseJwt() != null){
+			this.listarConsultas();
+		}else{
+			this.props.history.push("/");
+		}
 	}
 
 	selecionarConsulta(item) {
@@ -41,7 +45,7 @@ class VisualizarConsulta extends Component {
 		console.log(this.state.Usuario);
 		switch (this.state.Usuario.tipo) {
 			case "Paciente":
-				ApiService.chamada("Paciente/VerConsultas").Listar(TokenUsuario())
+				ApiService.chamada("Paciente/VerConsultas").Listar()
 					.then(resposta => resposta.json())
 					.then(resultado => {
 						console.log(resultado);
@@ -50,7 +54,7 @@ class VisualizarConsulta extends Component {
 					.catch(erro => console.error(erro))
 				break;
 			case "Medico":
-				ApiService.chamada("Medico/VerConsultas").Listar(TokenUsuario())
+				ApiService.chamada("Medico/VerConsultas").Listar()
 					.then(resposta => resposta.json())
 					.then(resultado => {
 						console.log(resultado);
