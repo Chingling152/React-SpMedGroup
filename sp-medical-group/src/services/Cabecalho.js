@@ -16,6 +16,5 @@ export const Cabecalho = () => {
                 return(<CabecalhoDeslogado/>);
         }
     }
-    console.log("Ta nulo");
     return(<CabecalhoDeslogado/>);
 }

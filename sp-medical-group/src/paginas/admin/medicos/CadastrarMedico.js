@@ -14,30 +14,30 @@ class CadastrarMedico extends Component {
 		this.state = {
 			especialidades: [],
 			clinicas: [],
-			usuarios:[],
+			usuarios: [],
 			medicos: [],
 
-			usuario:0,
-			nome:"",
-			crm:"",
-			clinica:0,
-			especialidade:0,
+			usuario: 0,
+			nome: "",
+			crm: "",
+			clinica: 0,
+			especialidade: 0,
 
-			acao:"Cadastrar",
+			acao: "Cadastrar",
 
 			erros: [],
 			erro: "",
-			sucesso:""
+			sucesso: ""
 		}
 	}
 
 	componentDidMount() {
-		if(parseJwt() !== null){
+		if (parseJwt() !== null) {
 			this.buscarEspecialidades();
 			this.buscarClinicas();
 			this.buscarMedicos();
 			this.buscarUsuarios();
-		}else{
+		} else {
 			this.history.push("/");
 		}
 	}
@@ -46,7 +46,7 @@ class CadastrarMedico extends Component {
 		ApiService.chamada("Usuario/Listar/2").Listar(TokenUsuario())
 			.then(resposta => resposta.json())
 			.then(resultado => {
-				this.setState({ usuarios: resultado.filter( i => i.medico.length === 0)})
+				this.setState({ usuarios: resultado.filter(i => i.medico.length === 0) })
 			})
 			.catch(erro => console.log(erro));
 	}
@@ -72,60 +72,93 @@ class CadastrarMedico extends Component {
 			.catch(erro => erro);
 	}
 
-	acaoAlterar(event){
+	receberResposta(resposta) {
+
+		switch (resposta.status) {
+			case 200:
+				resposta.json().then(resultado => {
+					this.setState(
+						{
+							sucesso: resultado
+						}
+					);
+				})
+				break;
+			case 400:
+			case 404:
+				resposta.json().then(resultado => {
+					this.setState({
+						erros: resultado
+					});
+				}
+				)
+				break;
+			case 401:
+			case 403:
+				resposta.json().then(resultado => {
+					this.setState({ erro: resultado })
+				}
+				);
+				break;
+			default:
+				console.log(resposta.json());
+				break;
+		}
+
+	}
+
+	acaoAlterar(event) {
 		event.preventDefault();
 	}
 
-	alterarNome = (event) => this.setState({nome:event.target.value});
-	alterarEspecialidade = (event) => this.setState({especialidade:event.target.value});
-	alterarCrm = (event) => this.setState({crm:event.target.value});
-	alterarClinica = (event) => this.setState({clinica:event.target.value});
-	alterarUsuario = (event) => this.setState({usuario:event.target.value});
+	alterarNome = (event) => this.setState({ nome: event.target.value });
+	alterarEspecialidade = (event) => this.setState({ especialidade: event.target.value });
+	alterarCrm = (event) => this.setState({ crm: event.target.value });
+	alterarClinica = (event) => this.setState({ clinica: event.target.value });
+	alterarUsuario = (event) => this.setState({ usuario: event.target.value });
 
-	acaoMedico(event){
-		event.preventDefault();
+	acaoMedico(event) {
+		switch (this.state.acao) {
+			case "Cadastrar":
+				event.preventDefault();
 
-		ApiService.chamada("Medico/Cadastrar").Cadastrar(JSON.stringify({
-			idUsuario: this.state.usuario,
-			nome:  this.state.nome,
-			crm:  this.state.crm,
-			idClinica: this.state.clinica,
-			idEspecialidade: this.state.especialidade
-		}))
-		.then(resposta => {
-			switch (resposta.status) {
-				case 200:
-					resposta.json().then(resultado => {
-						this.setState(
-							{
-								sucesso:resultado
-							}
-						)
-						this.buscarMedicos();
-					})
-					break;
-				case 400:
-				resposta.json().then( resultado =>{
-							this.setState({
-								erros:resultado
-							})
-						}
-					)				
-					break;
-				case 401:
-				case 403:
-					resposta.json().then( resultado =>
+				ApiService.chamada("Medico/Cadastrar").Cadastrar(
+					JSON.stringify(
 						{
-							this.setState({erro:resultado})
+						idUsuario: this.state.usuario,
+						nome: this.state.nome,
+						crm: this.state.crm.toUpperCase(),
+						idClinica: this.state.clinica,
+						idEspecialidade: this.state.especialidade
+						}
+					))
+					.then(resposta => this.receberResposta(resposta))
+					.catch(erro => console.log(erro));
+				break;
+			case "Alterar":
+				fetch("http://localhost:5000/api/v1/Medico/Alterar",{
+					method:'PUT',
+					headers:{
+						"Content-Type":"application/json",
+						"Authorization": "Bearer " + TokenUsuario()
+					},
+					body: JSON.stringify({
+							Id : this.state.id,
+							idUsuario: this.state.usuario,
+							nome: this.state.nome,
+							crm: this.state.crm.toUpperCase(),
+							idClinica: this.state.clinica,
+							idEspecialidade: this.state.especialidade
 						}
 					)
-					break;
-				default:
-					break;
-			}
+				}
+				)
+				.then(resposta => this.receberResposta(resposta))
+				.catch(erro => console.error(erro));
+				break;
+			default:
+				break;
 		}
-		)
-		.catch(erro => console.log(erro));
 	}
 
 	render() {
@@ -153,11 +186,11 @@ class CadastrarMedico extends Component {
 							<MensagemErro mensagem={this.state.erros.idUsuario} />
 
 							<label htmlFor="nome-medico">Nome</label>
-							<input type="text" id="nome-medico" placeholder="Nome" maxLength="200" required value={this.state.nome} onChange={this.alterarNome.bind(this)}/>
+							<input type="text" id="nome-medico" placeholder="Nome" maxLength="200" required value={this.state.nome} onChange={this.alterarNome.bind(this)} />
 							<MensagemErro mensagem={this.state.erros.Nome} />
 
 							<label htmlFor="crm-medico">CRM</label>
-							<input type="number" id="crm-medico" placeholder="CRM" min="0000000" max="9999999" maxLength="7" minLength="7" required value={this.state.crm} onChange={this.alterarCrm.bind(this)}/>
+							<input type="text" id="crm-medico" placeholder="CRM" maxLength="7" minLength="7" pattern="[0-9]{5}[A-Za-z]{2}" title="Precisa ter 5 numeros e 2 letras (UF)" required value={this.state.crm} onChange={this.alterarCrm.bind(this)} />
 							<MensagemErro mensagem={this.state.erros.Crm} />
 
 							<label htmlFor="clinica-medico">Clinica</label>
@@ -177,7 +210,7 @@ class CadastrarMedico extends Component {
 
 							<label htmlFor="especialidade-medico">Especialidade</label>
 							<select name="especialidade" id="especialidade" required value={this.state.especialidade} onChange={this.alterarEspecialidade.bind(this)}>
-							<option value="0" default>Selecione uma especialidade</option>
+								<option value="0" default>Selecione uma especialidade</option>
 								{
 									this.state.especialidades.map(
 										i => {

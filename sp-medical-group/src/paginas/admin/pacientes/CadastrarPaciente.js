@@ -6,97 +6,157 @@ import MensagemErro from '../../../componentes/feedback/MensagemErro';
 import MensagemSucesso from '../../../componentes/feedback/MensagemSucesso';
 
 import ApiService from '../../../services/ApiService';
-import { parseJwt } from '../../../services/Autenticacao';
+import { parseJwt, TokenUsuario } from '../../../services/Autenticacao';
 
 class CadastrarPaciente extends Component {
-	constructor(){
+	constructor() {
 		super();
 		this.state = {
-			pacientes:[],
+			pacientes: [],
 
-			usuario:0,
-			nome:"",
-			rg:"",
-			cpf:"",
-			telefone:"",
-			dataNasc:"",
+			usuario: 0,
+			nome: "",
+			rg: "",
+			cpf: "",
+			telefone: "",
+			dataNasc: "",
 
-			acao:"Cadastrar",
-			usuarios:[],
+			acao: "Cadastrar",
+			usuarios: [],
 
-			sucesso:"",
-			erro:"",
-			erros:[]
+			sucesso: "",
+			erro: "",
+			erros: []
 		}
 	}
 
-	componentDidMount(){
-		if(parseJwt() !== null){
+	componentDidMount() {
+		if (parseJwt() !== null) {
 			this.buscarUsuarios();
 			this.buscarPacientes();
-		}else{
+		} else {
 			this.history.push("/");
 		}
 	}
 
-	acaoAlterar(event){
-		event.preventDefault();
-		this.setState({acao:"Alterar"});
+	resetarValores() {
+		this.setState(
+			{
+				usuario: 0,
+				nome: "",
+				rg: "",
+				cpf: "",
+				telefone: "",
+				dataNasc: "",
+				acao: "Cadastrar",
+				sucesso: "",
+				erro: "",
+				erros: []
+			}
+		);
+		this.buscarPacientes();
 	}
 
-	acaoPaciente(event){
+	receberResposta(resposta) {
+
+		switch (resposta.status) {
+			case 200:
+				resposta.json().then(resultado => {
+					this.setState(
+						{
+							sucesso: resultado
+						}
+					);
+				})
+				break;
+			case 400:
+			case 404:
+				resposta.json().then(resultado => {
+					this.setState({
+						erros: resultado
+					});
+				}
+				)
+				break;
+			case 401:
+			case 403:
+				resposta.json().then(resultado => {
+					this.setState({ erro: resultado })
+				}
+				);
+				break;
+			default:
+				console.log(resposta.json());
+				break;
+		}
+
+	}
+	acaoAlterar(event) {
+		this.setState(
+			{
+				id: event.id,
+				usuario: event.idUsuario,
+				nome: event.nome,
+				rg: event.rg,
+				cpf: event.cpf,
+				telefone: event.telefone,
+				dataNasc: event.dataNasc,
+				acao: "Cadastrar",
+			}
+		);
+	}
+
+
+	acaoPaciente(event) {
 		event.preventDefault();
 
-		ApiService.chamada("Paciente/Cadastrar").Cadastrar(JSON.stringify({
-			idUsuario: this.state.usuario,
-			nome:  this.state.nome,
-			rg:  this.state.rg,
-			cpf: this.state.cpf,
-			telefone: this.state.telefone,
-			dataNascimento: this.state.dataNasc
-		}))
-		.then(resposta => {
-			switch (resposta.status) {
-				case 200:
-					resposta.json().then(resultado => {
-						this.setState(
-							{
-								sucesso:resultado
-							}
-						)
-						this.buscarPacientes();
-					})
-					break;
-				case 400:
-				resposta.json().then( resultado =>{
-						console.log(resultado);
-							this.setState({
-								erros:resultado
-							})
-						}
-					)				
-					break;
-				case 401:
-				case 403:
-					resposta.json().then( resultado =>
-						{
-							this.setState({erro:resultado})
+		switch (this.state.acao) {
+			case "Cadastrar":
+
+				ApiService.chamada("Paciente/Cadastrar").Cadastrar(JSON.stringify({
+					idUsuario: this.state.usuario,
+					nome: this.state.nome,
+					rg: this.state.rg,
+					cpf: this.state.cpf,
+					telefone: this.state.telefone,
+					dataNascimento: this.state.dataNasc
+				}))
+					.then(resposta => this.receberResposta(resposta))
+					.catch(erro => console.log(erro));
+				break;
+			case "Alterar":
+				fetch("http://localhost:5000/api/v1/Paciente/Alterar",{
+					method:'PUT',
+					headers:{
+						"Content-Type":"application/json",
+						"Authorization": "Bearer " + TokenUsuario()
+					},
+					body: JSON.stringify({
+							Id : this.state.id,
+							idUsuario: this.state.usuario,
+							nome: this.state.nome,
+							rg: this.state.rg,
+							cpf: this.state.cpf,
+							telefone: this.state.telefone,
+							dataNascimento: this.state.dataNasc
 						}
 					)
-					break;
-				default:
-					break;
-			}
+				}
+				)
+				.then(resposta => this.receberResposta(resposta))
+				.catch(erro => console.error(erro));
+				break;
+			default:
+				break;
 		}
-		)
-		.catch(erro => console.log(erro));
+		this.resetarValores();
 	}
 
 	buscarUsuarios() {
 		ApiService.chamada("Usuario/Listar/1").Listar()
 			.then(resposta => resposta.json())
 			.then(resultado => {
-				this.setState({ usuarios: resultado.filter( i => i.paciente.length === 0)})
+				this.setState({ usuarios: resultado.filter(i => i.paciente.length === 0) })
 			})
 			.catch(erro => console.log(erro));
 	}
@@ -108,14 +168,21 @@ class CadastrarPaciente extends Component {
 			.catch(erro => erro);
 	}
 
-	alterarUsuario = (event) => this.setState({usuario:event.target.value});
-	alterarNome = (event) => this.setState({nome:event.target.value});
-	alterarRg = (event) => this.setState({rg:event.target.value});
-	alterarCpf = (event) => this.setState({cpf:event.target.value});
-	alterarTelefone = (event) => this.setState({telefone:event.target.value});
-	alterarDataNasc = (event) => this.setState({dataNasc:event.target.value});
+	alterarUsuario = (event) => this.setState({ usuario: event.target.value });
+	alterarNome = (event) => this.setState({ nome: event.target.value });
+	alterarRg = (event) => this.setState({ rg: event.target.value });
+	alterarCpf = (event) => this.setState({ cpf: event.target.value });
+	alterarTelefone = (event) => this.setState({ telefone: event.target.value });
+	alterarDataNasc = (event) => this.setState({ dataNasc: event.target.value });
 
 	render() {
+		const { idUsuario } = this.state;
+		const { nome } = this.state;
+		const { rg } = this.state;
+		const { cpf } = this.state;
+		const { telefone } = this.state;
+		const { dataNasc } = this.state;
+
 		return (
 			<div className="App">
 				{Cabecalho()}
@@ -123,8 +190,8 @@ class CadastrarPaciente extends Component {
 					<section className="sombreado corpo--centralizado corpo--formulario cadastro">
 						<h3>{this.state.acao.toUpperCase()} PACIENTE</h3>
 						<form className="grid--container grid--container-corpo" onSubmit={this.acaoPaciente.bind(this)}>
-						<label htmlFor="usuario-paciente">Usuario</label>
-							<select name="usuario-paciente" id="usuario-paciente" required value={this.state.usuario} onChange={this.alterarUsuario.bind(this)}>
+							<label htmlFor="usuario-paciente">Usuario</label>
+							<select name="usuario-paciente" id="usuario-paciente" required value={idUsuario} onChange={this.alterarUsuario.bind(this)}>
 								<option value="0" default>Selecione um usuario</option>
 								{
 									this.state.usuarios.map(
@@ -138,23 +205,23 @@ class CadastrarPaciente extends Component {
 							</select>
 
 							<label htmlFor="nome-paciente">Nome</label>
-							<input type="text" id="nome-paciente" placeholder="Nome" maxLength="200" required value={this.state.nome} onChange={this.alterarNome.bind(this)}/>
+							<input type="text" id="nome-paciente" placeholder="Nome" maxLength="200" required value={nome} onChange={(e) => this.setState({ nome: e.target.value })} />
 							<MensagemErro mensagem={this.state.erros.Nome} />
 
 							<label htmlFor="rg-paciente">RG</label>
-							<input type="number" id="rg-paciente" placeholder="Rg" maxLength="9" min="000000000" max="999999999" required value={this.state.rg} onChange={this.alterarRg.bind(this)}/>
+							<input type="number" id="rg-paciente" placeholder="Rg" maxLength="9" min="000000000" max="999999999" required value={rg} onChange={(e) => this.setState({ rg: e.target.value })} />
 							<MensagemErro mensagem={this.state.erros.Rg} />
 
 							<label htmlFor="cpf-paciente">CPF</label>
-							<input type="number" id="cpf-paciente" placeholder="CPF" maxLength="11" min="00000000000" max="99999999999" required value={this.state.cpf} onChange={this.alterarCpf.bind(this)}/>
+							<input type="number" id="cpf-paciente" placeholder="CPF" maxLength="11" min="00000000000" max="99999999999" required value={cpf} onChange={(e) => this.setState({ cpf: e.target.value })} />
 							<MensagemErro mensagem={this.state.erros.Cpf} />
 
 							<label htmlFor="telefone-paciente">Telefone</label>
-							<input type="phone" id="telefone-paciente" placeholder="Telefone" minLength="10" maxLength="11" required value={this.state.telefone} onChange={this.alterarTelefone.bind(this)} />
+							<input type="phone" id="telefone-paciente" placeholder="Telefone" minLength="10" maxLength="11" required value={telefone} onChange={(e) => this.setState({ telefone: e.target.value })} />
 							<MensagemErro mensagem={this.state.erros.Telefone} />
 
 							<label htmlFor="data-nascimento-paciente">Data de nascimento</label>
-							<input type="date" id="data-nascimento-paciente" placeholder="Data de nascimento" required value={this.state.dataNasc} onChange={this.alterarDataNasc.bind(this)}/>
+							<input type="date" id="data-nascimento-paciente" placeholder="Data de nascimento" required value={dataNasc} onChange={(e) => this.setState({ dataNasc: e.target.value })} />
 							<MensagemErro mensagem={this.state.erros.dataNascimento} />
 
 							<input type="submit" value={this.state.acao.toUpperCase()} />
@@ -187,7 +254,7 @@ class CadastrarPaciente extends Component {
 												<td>{i.cpf}</td>
 												<td>{i.telefone}</td>
 												<td>{i.dataNascimento.split(" ")[0]}</td>
-												<td> <a className="link" onClick={this.acaoAlterar.bind(i)}>Alterar</a></td>
+												<td> <a className="link" onClick={() => this.acaoAlterar(i)}>Alterar</a></td>
 											</tr>
 										);
 									}

@@ -25,7 +25,7 @@ export default{
                     "Content-Type":"application/json",
                     "Authorization": "Bearer " + TokenUsuario()
                 },
-                body:corpo
+                body: JSON.stringify(corpo)
             }),
             Cadastrar: (corpo)=> fetch(url,{
                 method:'POST',
