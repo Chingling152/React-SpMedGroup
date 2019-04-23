@@ -68,6 +68,7 @@ class CadastrarPaciente extends Component {
 						}
 					);
 				})
+				this.resetarValores();
 				break;
 			case 400:
 			case 404:
@@ -101,7 +102,7 @@ class CadastrarPaciente extends Component {
 				cpf: event.cpf,
 				telefone: event.telefone,
 				dataNasc: event.dataNasc,
-				acao: "Cadastrar",
+				acao: "Alterar",
 			}
 		);
 	}
@@ -125,31 +126,30 @@ class CadastrarPaciente extends Component {
 					.catch(erro => console.log(erro));
 				break;
 			case "Alterar":
-				fetch("http://localhost:5000/api/v1/Paciente/Alterar",{
-					method:'PUT',
-					headers:{
-						"Content-Type":"application/json",
+				fetch("http://localhost:5000/api/v1/Paciente/Alterar", {
+					method: 'PUT',
+					headers: {
+						"Content-Type": "application/json",
 						"Authorization": "Bearer " + TokenUsuario()
 					},
 					body: JSON.stringify({
-							Id : this.state.id,
-							idUsuario: this.state.usuario,
-							nome: this.state.nome,
-							rg: this.state.rg,
-							cpf: this.state.cpf,
-							telefone: this.state.telefone,
-							dataNascimento: this.state.dataNasc
-						}
+						Id: this.state.id,
+						idUsuario: this.state.usuario,
+						nome: this.state.nome,
+						rg: this.state.rg,
+						cpf: this.state.cpf,
+						telefone: this.state.telefone,
+						dataNascimento: this.state.dataNasc
+					}
 					)
 				}
 				)
-				.then(resposta => this.receberResposta(resposta))
-				.catch(erro => console.error(erro));
+					.then(resposta => this.receberResposta(resposta))
+					.catch(erro => console.error(erro));
 				break;
 			default:
 				break;
 		}
-		this.resetarValores();
 	}
 
 	buscarUsuarios() {
@@ -168,12 +168,11 @@ class CadastrarPaciente extends Component {
 			.catch(erro => erro);
 	}
 
-	alterarUsuario = (event) => this.setState({ usuario: event.target.value });
-	alterarNome = (event) => this.setState({ nome: event.target.value });
-	alterarRg = (event) => this.setState({ rg: event.target.value });
-	alterarCpf = (event) => this.setState({ cpf: event.target.value });
-	alterarTelefone = (event) => this.setState({ telefone: event.target.value });
-	alterarDataNasc = (event) => this.setState({ dataNasc: event.target.value });
+	alterarUsuario = (event) => {
+		if (this.state.acao !== "Alterar") {
+			this.setState({ usuario: event.target.value });
+		}
+	}
 
 	render() {
 		const { idUsuario } = this.state;
@@ -183,6 +182,8 @@ class CadastrarPaciente extends Component {
 		const { telefone } = this.state;
 		const { dataNasc } = this.state;
 
+		const Usuario = this.state.acao !== "Alterar" ? "Selecione um usuario" : "Você não pode mudar o usuario";
+
 		return (
 			<div className="App">
 				{Cabecalho()}
@@ -191,8 +192,8 @@ class CadastrarPaciente extends Component {
 						<h3>{this.state.acao.toUpperCase()} PACIENTE</h3>
 						<form className="grid--container grid--container-corpo" onSubmit={this.acaoPaciente.bind(this)}>
 							<label htmlFor="usuario-paciente">Usuario</label>
-							<select name="usuario-paciente" id="usuario-paciente" required value={idUsuario} onChange={this.alterarUsuario.bind(this)}>
-								<option value="0" default>Selecione um usuario</option>
+							<select name="usuario-paciente" id="usuario-paciente" required value={idUsuario} onChange={this.alterarUsuario.bind(this)} disabled={(this.state.acao === "Alterar") ? "disabled" : ""}>
+								<option value="0" default>{Usuario}</option>
 								{
 									this.state.usuarios.map(
 										i => {
@@ -234,7 +235,7 @@ class CadastrarPaciente extends Component {
 								<tr>
 									<td>#</td>
 									<td>Nome</td>
-									{/* <td>Email</td> */}
+									<td>Email</td>
 									<td>Rg</td>
 									<td>CPF</td>
 									<td>Telefone</td>
@@ -249,7 +250,7 @@ class CadastrarPaciente extends Component {
 											<tr key={i.id}>
 												<td>{i.id}</td>
 												<td>{i.nome}</td>
-												{/* <td>{i.idUsuarioNavigation.email}</td> */}
+												<td>{i.idUsuarioNavigation.email}</td>
 												<td>{i.rg}</td>
 												<td>{i.cpf}</td>
 												<td>{i.telefone}</td>

@@ -27,7 +27,7 @@
     height: 65vh;
     overflow-x: hidden;
     overflow-y: scroll;
-    border: 1px solid #88888857; 
+    border: 2px ridge #88888857; 
 }
 /* Consulta */
 .corpo--consultas-container{

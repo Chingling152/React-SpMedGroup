@@ -5,7 +5,7 @@ import { Cabecalho } from '../../../services/Cabecalho';
 import MensagemErro from '../../../componentes/feedback/MensagemErro';
 import MensagemSucesso from '../../../componentes/feedback/MensagemSucesso';
 import ApiService from '../../../services/ApiService';
-import { parseJwt } from '../../../services/Autenticacao';
+import { parseJwt, TokenUsuario } from '../../../services/Autenticacao';
 
 class CadastrarClinica extends Component {
 	constructor() {
@@ -19,17 +19,35 @@ class CadastrarClinica extends Component {
 			cep: "",
 			razaoSocial: ""
 			,
-			acao: "CADASTRAR"
+			acao: "Cadastrar"
 			,
 			sucesso: "",
 			erros: [],
 			erro: ""
 		}
 	}
+
 	componentDidMount() {
-		if(parseJwt() !== null){
+		this.resetarValores();
+	}
+
+	//reinicia valores
+	resetarValores() {
+		if (parseJwt() !== null) {
+			this.setState(
+				{
+					id: 0,
+					nomeFantasia: "",
+					endereco: "",
+					numero: "",
+					cep: "",
+					razaoSocial: "",
+					acao: "Cadastrar"
+					
+				}
+			);
 			this.buscarClinicas();
-		}else{
+		} else {
 			this.history.push("/");
 		}
 	}
@@ -41,90 +59,132 @@ class CadastrarClinica extends Component {
 			.catch(erro => console.log(erro));
 	}
 
-	acaoAlterar(item){
+	acaoAlterar(event) {
+		this.setState(
+			{
+				id: event.id,
+				nomeFantasia: event.nomeFantasia,
+				endereco: event.endereco,
+				numero: event.numero,
+				cep: event.cep,
+				razaoSocial: event.razaoSocial,
+				acao: "Alterar",
+				sucesso:"",
+				erro:"",
+				erros:[]
+			}
+		);
+	}
+	
+	receberResposta(resposta) {
+
+		switch (resposta.status) {
+			case 200:
+				resposta.json().then(resultado => {
+					this.setState(
+						{
+							sucesso: resultado
+						}
+					);
+				})
+				this.resetarValores();
+				break;
+			case 400:
+			case 404:
+				resposta.json().then(resultado => {
+					this.setState({
+						erros: resultado
+					});
+				}
+				)
+				break;
+			case 401:
+			case 403:
+				resposta.json().then(resultado => {
+					this.setState({ erro: resultado })
+				}
+				);
+				break;
+			default:
+				console.log(resposta.json());
+				break;
+		}
 
 	}
-
 	acaoClinica(event) {
 		event.preventDefault();
-
-		ApiService.chamada("Clinica/Cadastrar").Cadastrar(JSON.stringify({
-			nomeFantasia: this.state.nomeFantasia,
-			endereco: this.state.endereco,
-			numero: this.state.numero,
-			cep: this.state.cep,
-			razaoSocial: this.state.razaoSocial
-			})
-		)
-			.then(resposta => {
-				console.log(resposta);
-				switch (resposta.status) {
-					case 200:
-						resposta.json().then(resultado => {
-							this.setState(
-								{
-									sucesso: resultado
-								}
-							)
-							this.buscarClinicas();
-						})
-						break;
-					case 400:
-					case 404:
-						resposta.json().then(resultado => {
-							this.setState(
-								{
-									erros: resultado
-								}
-							)
-						})
-						break;
-					case 401:
-					case 403:
-						resposta.json().then(resultado => {
-							this.setState({ erro: resultado })
-						}
-						)
-						break;
-					default:
-						break;
+		switch(this.state.acao){
+			case "Cadastrar":
+				ApiService.chamada("Clinica/Cadastrar").Cadastrar(JSON.stringify({
+					nomeFantasia: this.state.nomeFantasia,
+					endereco: this.state.endereco,
+					numero: this.state.numero,
+					cep: this.state.cep,
+					razaoSocial: this.state.razaoSocial
+					})
+				)
+					.then(resposta => this.receberResposta(resposta))
+					.catch(erro => console.log(erro));
+					break;
+				case "Alterar":
+				fetch("http://localhost:5000/api/v1/Clinica/Alterar", {
+					method: 'PUT',
+					headers: {
+						"Content-Type": "application/json",
+						"Authorization": "Bearer " + TokenUsuario()
+					},
+					body: JSON.stringify({
+						Id: this.state.id,
+						nomeFantasia: this.state.nomeFantasia,
+						endereco: this.state.endereco,
+						numero: this.state.numero,
+						cep: this.state.cep,
+						razaoSocial: this.state.razaoSocial
+					}
+					)
 				}
-			})
-			.catch(erro => console.log(erro));
+				)
+					.then(resposta => this.receberResposta(resposta))
+					.catch(erro => console.error(erro));
+				break;
+				default:
+					break;
+		}
 	}
 
-	mudarNomeFantasia = (event) => this.setState({ nomeFantasia: event.target.value });
-	mudarEndereco = (event) => this.setState({ endereco: event.target.value });
-	mudarNumero = (event) => this.setState({ numero: event.target.value });
-	mudarCep = (event) => this.setState({ cep: event.target.value });
-	mudarRazaoSocial = (event) => this.setState({ razaoSocial: event.target.value });
-
 	render() {
+		const {nomeFantasia} = this.state;
+		const {endereco} = this.state;
+		const {numero} = this.state;
+		const {cep} = this.state;
+		const {razaoSocial} = this.state;
+
+
 		return (
 			<div className="App">
 				{Cabecalho()}
 				<main className="grid--container grid--container-corpo">
 					<div className="sombreado corpo--centralizado corpo--formulario cadastro">
-						<h3>{this.state.acao} CLINICA</h3>
+						<h3>{this.state.acao.toUpperCase()} CLINICA</h3>
 						<form className="grid--container grid--container-corpo" onSubmit={this.acaoClinica.bind(this)}>
 							<label htmlFor="nome-clinica">Nome Fantasia</label>
-							<input type="text" id="nome-clinica" placeholder="Nome Fantasia" maxLength="200" required value={this.state.nomeFantasia} onChange={this.mudarNomeFantasia.bind(this)} />
+							<input type="text" id="nome-clinica" placeholder="Nome Fantasia" maxLength="200" required value={nomeFantasia} onChange={(e) => this.setState({nomeFantasia: e.target.value})} />
 							<MensagemErro mensagem={this.state.erros.NomeFantasia} />
 
 							<label htmlFor="endereco-clinica">Endereço</label>
-							<input type="text" id="endereco-clinica" placeholder="Endereço" maxLength="250" required value={this.state.endereco} onChange={this.mudarEndereco.bind(this)} />
+							<input type="text" id="endereco-clinica" placeholder="Endereço" maxLength="250" required value={endereco} onChange={(e) => this.setState({ endereco: e.target.value })} />
 							<MensagemErro mensagem={this.state.erros.Endereco} />
 
 							<label htmlFor="numero-clinica">Numero</label>
-							<input type="number" id="numero-clinica" placeholder="Numero" min="0" maxLength="10" required value={this.state.numero} onChange={this.mudarNumero.bind(this)} />
+							<input type="number" id="numero-clinica" placeholder="Numero" min="0" maxLength="10" required value={numero} onChange={(e) => this.setState({ numero: e.target.value })} />
 							<MensagemErro mensagem={this.state.erros.Numero} />
 
 							<label htmlFor="nome-clinica">CEP</label>
-							<input type="number" id="nome-clinica" placeholder="CEP" min="00000000" max="99999999" maxLength="8" minLength="8" required value={this.state.cep} onChange={this.mudarCep.bind(this)} />
+							<input type="number" id="nome-clinica" placeholder="CEP" min="00000000" max="99999999" maxLength="8" minLength="8" required value={cep} onChange={(e) => this.setState({ cep: e.target.value })} />
 							<MensagemErro mensagem={this.state.erros.Cep} />
 
 							<label htmlFor="razaosocial-clinica">Razão Social</label>
-							<input type="text" id="razaosocial-clinica" placeholder="Razão Social" maxLength="200" required value={this.state.razaoSocial} onChange={this.mudarRazaoSocial.bind(this)} />
+							<input type="text" id="razaosocial-clinica" placeholder="Razão Social" maxLength="200" required value={razaoSocial} onChange={(e) => this.setState({ razaoSocial: e.target.value })} />
 							<MensagemErro mensagem={this.state.erros.RazaoSocial} />
 
 							<input type="submit" value={this.state.acao} />
@@ -155,7 +215,7 @@ class CadastrarClinica extends Component {
 												<td>{item.numero}</td>
 												<td>{item.cep}</td>
 												<td>{item.razaoSocial}</td>
-												<td> <a className="link" onClick={this.acaoAlterar.bind(item)}>Alterar</a></td>
+												<td> <a className="link" onClick={() => this.acaoAlterar(item)}>Alterar</a></td>
 											</tr>
 										);
 									}

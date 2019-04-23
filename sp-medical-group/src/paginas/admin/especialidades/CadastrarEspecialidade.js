@@ -5,14 +5,14 @@ import { Cabecalho } from '../../../services/Cabecalho';
 import MensagemErro from '../../../componentes/feedback/MensagemErro';
 import MensagemSucesso from '../../../componentes/feedback/MensagemSucesso';
 import ApiService from '../../../services/ApiService';
-import { TokenUsuario } from '../../../services/Autenticacao';
+import { TokenUsuario, parseJwt } from '../../../services/Autenticacao';
 
 class CadastrarEspecialidade extends Component {
 	constructor() {
 		super();
 		this.state = {
 			especialidades: [],
-			id:"",
+			id: 0,
 			especialidade: "",
 			//
 			acao: "Cadastrar",
@@ -22,57 +22,107 @@ class CadastrarEspecialidade extends Component {
 			erro: ""
 		}
 	}
-	
+
 	componentDidMount() {
+		if (parseJwt() !== null) {
+			this.buscarEspecialidades();
+		} else {
+			this.history.push("/");
+		}
+	}
+
+	acaoAlterar(item) {
+		this.setState(
+			{
+				id: item.id,
+				especialidade: item.nome,
+				acao: "Alterar",
+				sucesso: "",
+				erro: "",
+				erros: []
+			}
+		);
+	}
+
+	resetarValores() {
+		this.setState(
+			{
+				id: 0,
+				especialidade: "",
+				acao: "Cadastrar",
+				sucesso: "",
+				erro: "",
+				erros: []
+			}
+		);
 		this.buscarEspecialidades();
 	}
 
-	acaoAlterar(event, id) {
-		event.preventDefault();
+	receberResposta(resposta) {
+
+		switch (resposta.status) {
+			case 200:
+				resposta.json().then(resultado => {
+					this.setState(
+						{
+							sucesso: resultado
+						}
+					);
+				})
+				break;
+			case 400:
+			case 404:
+				resposta.json().then(resultado => {
+					this.setState({
+						erros: resultado
+					});
+				}
+				)
+				break;
+			case 401:
+			case 403:
+				resposta.json().then(resultado => {
+					this.setState({ erro: resultado })
+				}
+				);
+				break;
+			default:
+				console.log(resposta.json());
+				break;
+		}
+
 	}
 
 	enviarEspecialidade(event) {
 		event.preventDefault();
-
-		ApiService.chamada("Especialidade/Cadastrar")
-			.Cadastrar(JSON.stringify({ nome: this.state.especialidade }))
-			.then(resposta => {
-				switch (resposta.status) {
-					case 200:
-						resposta.json().then(resultado => {
-							this.setState(
-								{
-									sucesso: resultado
-								}
-							)
-							this.buscarEspecialidades();
-						})
-						break;
-					case 400:
-					case 404:
-						resposta.json().then(resultado => {
-							this.setState(
-								{
-									erros: resultado
-								}
-							)
-						})
-						break;
-					case 401:
-					case 403:
-						resposta.json().then(resultado => {
-							this.setState({ erro: resultado })
-							}
-						)
-						break;
-					default:
-						break;
+		switch (this.state.acao) {
+			case "Cadastrar":
+				ApiService.chamada("Especialidade/Cadastrar")
+					.Cadastrar(JSON.stringify({ nome: this.state.especialidade }))
+					.then(resposta => this.receberResposta(resposta))
+					.catch(erro => console.log(erro));
+				break;
+			case "Alterar":
+				fetch("http://localhost:5000/api/v1/Especialidade/Alterar", {
+					method: 'PUT',
+					headers: {
+						"Content-Type": "application/json",
+						"Authorization": "Bearer " + TokenUsuario()
+					},
+					body: JSON.stringify({
+						Id: this.state.id,
+						Nome: this.state.especialidade
+					}
+					)
 				}
-			}
-			)
-			.catch(erro => console.log(erro));
+				)
+					.then(resposta => this.receberResposta(resposta))
+					.catch(erro => console.log(erro));
+				break;
+			default:
+				break;
+		}
 	}
-
 	buscarEspecialidades() {
 		ApiService.chamada("Especialidade/Listar").Listar(TokenUsuario())
 			.then(resposta => resposta.json())
@@ -80,9 +130,8 @@ class CadastrarEspecialidade extends Component {
 			.catch(erro => console.log(erro));
 	}
 
-	nomeEspecialidade = (event) => this.setState({ especialidade: event.target.value });
-
 	render() {
+		const { especialidade } = this.state;
 		return (
 			<div className="App">
 				{Cabecalho()}
@@ -92,7 +141,7 @@ class CadastrarEspecialidade extends Component {
 						<h3>{this.state.acao.toUpperCase()} ESPECIALIDADE</h3>
 						<form className="grid--container grid--container-corpo" onSubmit={this.enviarEspecialidade.bind(this)}>
 							<label htmlFor="nome-especialidade">Nome</label>
-							<input type="text" id="nome-especialidade" placeholder="Nome" maxLength="200" required onChange={this.nomeEspecialidade.bind(this)} />
+							<input type="text" id="nome-especialidade" placeholder="Nome" maxLength="200" required value={especialidade} onChange={(e) => this.setState({ especialidade: e.target.value })} />
 							<MensagemErro mensagem={this.state.erros.Nome} />
 
 							<input type="submit" value={this.state.acao.toUpperCase()} />
@@ -116,7 +165,7 @@ class CadastrarEspecialidade extends Component {
 												<tr key={i.id}>
 													<td>{i.id}</td>
 													<td>{i.nome}</td>
-													<td> <a className="link" onClick={this.acaoAlterar.bind(this, i.id)}>Alterar</a> </td>
+													<td> <a className="link" onClick={() => this.acaoAlterar(i)}>Alterar</a> </td>
 												</tr>
 											);
 										}

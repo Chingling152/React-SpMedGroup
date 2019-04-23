@@ -8,117 +8,198 @@ import { parseJwt, TokenUsuario } from '../../../services/Autenticacao';
 import ApiService from '../../../services/ApiService';
 
 class CadastrarConsulta extends Component {
-	constructor(){
+	constructor() {
 		super();
 		this.state = {
-			medicos:[],
-			pacientes:[],
-			consultas:[],
+			medicos: [],
+			pacientes: [],
+			consultas: [],
 
 			id: 0,
-			medico:0,
-			paciente:0,
-  			dataConsulta: "",
-  			descricao: "",
-  			situacao: 1,
+			medico: 0,
+			paciente: 0,
+			dataConsulta: "",
+			descricao: "",
+			situacao: 1,
 
-			erros:[],
-			erro:[],
-			sucesso:"",
+			erros: [],
+			erro: [],
+			sucesso: "",
 
-			acao:"Cadastrar"
+			acao: "Cadastrar"
 		}
 	}
 
-	componentDidMount(){
-		if(parseJwt() !== null){
-			this.buscarPacientes();
-			this.buscarMedicos();
-			this.buscarConsultas();
-		}else{
-			this.history.push("/");
-		}
+	componentDidMount() {
+		this.resetarValores();
 	}
 
+
+	receberResposta(resposta) {
+
+		switch (resposta.status) {
+			case 200:
+				resposta.json().then(resultado => {
+					this.setState(
+						{
+							sucesso: resultado
+						}
+					);
+				})
+				this.resetarValores();
+				break;
+			case 400:
+			case 404:
+				resposta.json().then(resultado => {
+					this.setState({
+						erros: resultado
+					});
+				}
+				)
+				break;
+			case 401:
+			case 403:
+				resposta.json().then(resultado => {
+					this.setState({ erro: resultado })
+				}
+				);
+				break;
+			default:
+				console.log(resposta.json());
+				break;
+		}
+
+	}
+	// Retorna todos os medicos do banco de dados
 	buscarMedicos() {
-		ApiService.chamada("Medico/Listar").Listar(TokenUsuario())
+		ApiService.chamada("Medico/Listar").Listar()
 			.then(resposta => resposta.json())
 			.then(resultado => this.setState({ medicos: resultado }))
 			.catch(erro => console.log(erro));
 	}
-
+	//retorna todos os pacientes do banco de dados
 	buscarPacientes() {
-		ApiService.chamada("Paciente/Listar").Listar(TokenUsuario())
+		ApiService.chamada("Paciente/Listar").Listar()
 			.then(resposta => resposta.json())
 			.then(resultado => this.setState({ pacientes: resultado }))
 			.catch(erro => erro);
 	}
-
-	buscarConsultas(){
-		ApiService.chamada("Consulta/Listar").Listar(TokenUsuario())
-		.then(resposta => resposta.json())
-		.then(resultado => {console.log(resultado);this.setState({ consultas: resultado })})
-		.catch(erro => erro);
+	//retorna todas as consultas do banco de dados
+	buscarConsultas() {
+		ApiService.chamada("Consulta/Listar").Listar()
+			.then(resposta => resposta.json())
+			.then(resultado => { console.log(resultado); this.setState({ consultas: resultado }) })
+			.catch(erro => erro);
 	}
-
-	acaoConsulta(event){
-			event.preventDefault();
-	
-			ApiService.chamada("Consulta/Cadastrar").Cadastrar(JSON.stringify({
-				idMedico: this.state.medico,
-				idPaciente: this.state.paciente,
-				dataConsulta: this.state.dataConsulta,
-				descricao: this.state.descricao,
-				statusConsulta: this.state.situacao
-			}))
-			.then(resposta => {
-				switch (resposta.status) {
-					case 200:
-						resposta.json().then(resultado => {
-							this.setState(
-								{
-									sucesso:resultado
-								}
-							)
-							this.buscarConsultas();
-						})
-						break;
-					case 400:
-					resposta.json().then( resultado =>{
-								this.setState({
-									erros:resultado
-								})
-							}
-						)				
-						break;
-					case 401:
-					case 403:
-						resposta.json().then( resultado =>
-							{
-								this.setState({erro:resultado})
-							}
-						)
-						break;
-					default:
-						break;
+	//Cadastra ou altera valores da consulta 
+	acaoConsulta(event) {
+		event.preventDefault();
+		switch (this.state.acao) {
+			case "Cadastrar":
+				ApiService.chamada("Consulta/Cadastrar").Cadastrar(
+					JSON.stringify(
+						{
+							idMedico: this.state.medico,
+							idPaciente: this.state.paciente,
+							dataConsulta: this.state.dataConsulta,
+							descricao: this.state.descricao,
+							statusConsulta: this.state.situacao
+						}
+					)
+				)
+					.then(resposta => this.receberResposta(resposta))
+					.catch(erro => console.log(erro));
+				break;
+			case "Alterar":
+				fetch("http://localhost:5000/api/v1/Consulta/Alterar", {
+					method: 'PUT',
+					headers: {
+						"Content-Type": "application/json",
+						"Authorization": "Bearer " + TokenUsuario()
+					},
+					body: JSON.stringify({
+						Id: this.state.id,
+						idMedico: this.state.medico,
+						idPaciente: this.state.paciente,
+						dataConsulta: this.state.dataConsulta,
+						descricao: this.state.descricao,
+						statusConsulta: this.state.situacao
+					}
+					)
 				}
+				)
+					.then(resposta => this.receberResposta(resposta))
+					.catch(erro => console.error(erro));
+				break;
+			default:
+				break;
+	}
+	}
+	// prepara o formulario para alteração
+	acaoAlterar(event) {
+		this.setState(
+			{
+				id: event.id,
+				medico: event.idMedicoNavigation.id,
+				paciente: event.idPacienteNavigation.id,
+				dataConsulta: event.dataConsulta,
+				descricao: "",
+				situacao: event.statusConsulta,
+				acao: "Alterar",
+				sucesso:"",
+				erro:"",
+				erros:[]
 			}
-			)
-			.catch(erro => console.log(erro));
-		
+		);
 	}
 
-	acaoAlterar(event){
-
-	}	
-
-	alterarPaciente = (event) => this.setState({paciente:event.target.value})
-	alterarMedico = (event) => this.setState({medico:event.target.value})
-	alterarDescricao = (event) => this.setState({descricao:event.target.value})
-	alterarSituacao = (event) => this.setState({situacao:event.target.value})
-	alterarData = (event) => this.setState({dataConsulta:event.target.value})
+	//reinicia valores
+	resetarValores() {
+		if (parseJwt() !== null) {
+			this.setState(
+				{
+					id: 0,
+					medico: 0,
+					paciente: 0,
+					dataConsulta: "",
+					descricao: "",
+					situacao: 1,
+		
+					acao: "Cadastrar"
+				}
+			);
+			this.buscarPacientes();
+			this.buscarMedicos();
+			this.buscarConsultas();
+		} else {
+			this.history.push("/");
+		}
+	}
 
 	render() {
+		//variaveis de inicializaçao 
+		const {medico} = this.state;
+		const {paciente} = this.state;
+		let {situacao} = this.state;
+		const {dataConsulta} = this.state;
+
+		const Medico = this.state.acao !== "Alterar" ? "Selecione um Medico" : "Você não pode mudar o Medico";
+		//validação situação (gambi arra ;-; )
+		switch (situacao) {
+			case "Aguardando":
+				situacao = 1;
+				break;
+			case "Concluida":
+				situacao = 2;
+				break;
+			case "Cancelada":
+				situacao = 3;
+				break;
+			default:
+				situacao = 1;
+				break;
+		}
+		
 		return (
 			<div className="App">
 				{Cabecalho()}
@@ -128,9 +209,10 @@ class CadastrarConsulta extends Component {
 						<form className="grid--container grid--container-corpo" onSubmit={this.acaoConsulta.bind(this)}>
 
 							<label htmlFor="medico">Medico</label>
-							<select name="medico" id="medico" required value={this.state.medico} onChange={this.alterarMedico.bind(this)}>
-								<option value="0" defaultValue>Selecione um medico</option>
+							<select name="medico" id="medico" required value={medico} onChange={(e) => {if(this.state.acao !== "Alterar") this.setState({medico :e.target.value})}} disabled={(this.state.acao === "Alterar") ? "disabled" : ""}>
+								<option value="0" defaultValue>{Medico}</option>
 								{
+
 									this.state.medicos.map(
 										i => {
 											return (
@@ -138,12 +220,13 @@ class CadastrarConsulta extends Component {
 											);
 										}
 									)
+									}
 								}
 							</select>
 							<MensagemErro mensagem={this.state.erros.medico} />
 
 							<label htmlFor="paciente">Paciente</label>
-							<select name="paciente" id="paciente" required value={this.state.paciente} onChange={this.alterarPaciente.bind(this)}>
+							<select name="paciente" id="paciente" required value={paciente} onChange={(e) => this.setState({ paciente: e.target.value })}>
 								<option value="0" defaultValue>Selecione um paciente</option>
 								{
 									this.state.pacientes.map(
@@ -158,18 +241,18 @@ class CadastrarConsulta extends Component {
 							<MensagemErro mensagem={this.state.erros.paciente} />
 
 							<label htmlFor="data-consulta">Data da consulta</label>
-							<input type="date" id="data-consulta" placeholder="Data da consulta" required value={this.state.dataConsulta} onChange={this.alterarData.bind(this)}/>
+							<input type="date" id="data-consulta" placeholder="Data da consulta" required value={dataConsulta} onChange={(e) => this.setState({ dataConsulta: e.target.value })} />
 							<MensagemErro mensagem={this.state.erros.dataConsulta} />
 
 							{/* <label htmlFor="descricao">Descrição</label>
-							<textarea maxLength="400" value={this.state.descricao} onChange={this.alterarDescricao.bind(this)}></textarea> */}
+							<textarea maxLength="400" value={this.state.descricao} onChange={(e) => this.setState({ descricao: e.target.value })}></textarea> */}
 
 							<label htmlFor="situacao-consulta">Situação da Consulta</label>
-							<select name="situacao-consulta" id="situacao-consulta" required value={this.state.situacao} onChange={this.alterarSituacao.bind(this)}>
+							<select name="situacao-consulta" id="situacao-consulta" required value={situacao} onChange={(e) => this.setState({ situacao: e.target.value })}>
 								<option value="1" defaultValue>Aguardando</option>
 								<option value="2" defaultValue>Concluida</option>
 								<option value="3" defaultValue>Cancelada</option>
-							</select>	
+							</select>
 
 							<input type="submit" value={this.state.acao.toUpperCase()} />
 							<MensagemSucesso mensagem={this.state.sucesso} />
@@ -190,9 +273,9 @@ class CadastrarConsulta extends Component {
 									<td>Alterar</td>
 								</tr>
 							</thead>
-						<tbody>
-							{
-								this.state.consultas.map( item => {
+							<tbody>
+								{
+									this.state.consultas.map(item => {
 										return (
 											<tr key={item.id}>
 												<td>{item.id}</td>
@@ -202,14 +285,14 @@ class CadastrarConsulta extends Component {
 												<td>{item.idMedicoNavigation.idClinicaNavigation.nomeFantasia}</td>
 												<td>{item.dataConsulta}</td>
 												<td>{item.statusConsulta}</td>
-												{/* <td>{item}</td> */}
-												<td> <a className="link" onClick={this.acaoAlterar(item)}>Alterar</a></td>
+												{/* <td>{item.descricao}</td> */}
+												<td> <a className="link" onClick={()=>this.acaoAlterar(item)}>Alterar</a></td>
 											</tr>
 										);
 									}
-								)
-							}
-						</tbody>
+									)
+								}
+							</tbody>
 						</table>
 					</div>
 				</main>
