@@ -5,9 +5,33 @@ import "./Home.css";
 import TituloSublinhado from '../../../componentes/partes/titulos/TituloSublinhado';
 import Vantagem from '../../../componentes/partes/home/vantagem/Vantagem';
 import { Cabecalho } from '../../../services/Cabecalho';
+import { parseJwt } from '../../../services/Autenticacao';
+import ApiService from '../../../services/ApiService';
 
 class Home extends Component {
+
+	constructor(){
+		super();
+		this.state={
+			instituicoes:[]
+		}
+	}
+
+	componentDidMount(){
+		ApiService.chamada("Clinica/Listar?quant=6").Listar()
+		.then(resposta => resposta.json())
+		.then(resp => this.setState({instituicoes: resp}))
+		.catch(error => console.log(error))
+	}
+
 	render() {
+		const {instituicoes} = this.state;
+		const Usuario = parseJwt();
+		const LoginBtn = Usuario === null? 
+			<a href="/login" className="link">Fazer Login</a> : 
+			Usuario.Role === "Administrador"? 
+				<a href="/admin" className="link">Veja sua area</a> : 
+				<a href="/??" className="link">Veja sua area</a> ;
 		return (
 			<div className="App">
 				{
@@ -28,17 +52,13 @@ class Home extends Component {
 									<Vantagem mensagem="Veja todas as suas consultas" icone="icone-calendario" link="/minha-area/consultas" />
 									<Vantagem mensagem="Saiba como chegar ao local de suas consultas" icone="icone-checkpoint" click={()=>alert("Ainda estamos trabalhando nisso")} />
 								</div>
-								<a href="/login" className="link">Fazer Login</a>
+								{LoginBtn}
 							</section>
 							<section>
 								<TituloSublinhado mensagem="Instituições que usam nosso serviço" tamanho="90%" />
 								<div className="grid--container tres--colunas">
-									<p>Instituicao</p>
-									<p>Instituicao</p>
-									<p>Instituicao</p>
-									<p>Instituicao</p>
-									<p>Instituicao</p>
-									<p>Instituicao</p>
+									{instituicoes.map(i=> <p key={i.id}>{i.nomeFantasia}</p>)}
+									
 								</div>
 							</section>
 						</div>

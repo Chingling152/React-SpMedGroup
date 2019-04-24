@@ -31,30 +31,30 @@ class CadastrarPaciente extends Component {
 	}
 
 	componentDidMount() {
-		if (parseJwt() !== null) {
-			this.buscarUsuarios();
-			this.buscarPacientes();
-		} else {
-			this.history.push("/");
-		}
+		this.resetarValores();
 	}
 
 	resetarValores() {
-		this.setState(
-			{
-				usuario: 0,
-				nome: "",
-				rg: "",
-				cpf: "",
-				telefone: "",
-				dataNasc: "",
-				acao: "Cadastrar",
-				sucesso: "",
-				erro: "",
-				erros: []
-			}
-		);
-		this.buscarPacientes();
+		if (parseJwt() !== null) {
+			this.setState(
+				{
+					usuario: 0,
+					nome: "",
+					rg: "",
+					cpf: "",
+					telefone: "",
+					dataNasc: "",
+					acao: "Cadastrar",
+					sucesso: "",
+					erro: "",
+					erros: []
+				}
+			);
+			this.buscarPacientes();
+			this.buscarUsuarios();
+		} else {
+			this.history.push("/");
+		}
 	}
 
 	receberResposta(resposta) {
@@ -181,6 +181,9 @@ class CadastrarPaciente extends Component {
 		const { cpf } = this.state;
 		const { telefone } = this.state;
 		const { dataNasc } = this.state;
+		
+		const {usuarios} = this.state;
+		const {pacientes} = this.state;
 
 		const Usuario = this.state.acao !== "Alterar" ? "Selecione um usuario" : "Você não pode mudar o usuario";
 
@@ -195,7 +198,7 @@ class CadastrarPaciente extends Component {
 							<select name="usuario-paciente" id="usuario-paciente" required value={idUsuario} onChange={this.alterarUsuario.bind(this)} disabled={(this.state.acao === "Alterar") ? "disabled" : ""}>
 								<option value="0" default>{Usuario}</option>
 								{
-									this.state.usuarios.map(
+									usuarios.map(
 										i => {
 											return (
 												<option key={i.id} value={i.id}>{i.email}</option>
@@ -245,7 +248,7 @@ class CadastrarPaciente extends Component {
 							</thead>
 							<tbody>
 								{
-									this.state.pacientes.map(i => {
+									pacientes.map(i => {
 										return (
 											<tr key={i.id}>
 												<td>{i.id}</td>

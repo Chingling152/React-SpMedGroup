@@ -167,6 +167,7 @@ class CadastrarUsuario extends Component {
 	render() {
 		const {email} = this.state;
 		const {senha} = this.state;
+		const {usuarios} = this.state;
 		let {tipoUsuario} = this.state;
 		switch (tipoUsuario) {
 			case "Medico":
@@ -223,7 +224,7 @@ class CadastrarUsuario extends Component {
 							</thead>
 							<tbody>
 								{
-									this.state.usuarios.map(i => {
+									usuarios.map(i => {
 										return (
 											<tr key={i.id}>
 												<td>{i.id}</td>

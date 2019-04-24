@@ -6,6 +6,7 @@ import MensagemErro from '../../../componentes/feedback/MensagemErro';
 import MensagemSucesso from '../../../componentes/feedback/MensagemSucesso';
 import { parseJwt, TokenUsuario } from '../../../services/Autenticacao';
 import ApiService from '../../../services/ApiService';
+import { enumParse } from '../../../services/Enums';
 
 class CadastrarConsulta extends Component {
 	constructor() {
@@ -33,7 +34,6 @@ class CadastrarConsulta extends Component {
 	componentDidMount() {
 		this.resetarValores();
 	}
-
 
 	receberResposta(resposta) {
 
@@ -88,7 +88,7 @@ class CadastrarConsulta extends Component {
 	buscarConsultas() {
 		ApiService.chamada("Consulta/Listar").Listar()
 			.then(resposta => resposta.json())
-			.then(resultado => { console.log(resultado); this.setState({ consultas: resultado }) })
+			.then(resultado => {this.setState({ consultas: resultado }) })
 			.catch(erro => erro);
 	}
 	//Cadastra ou altera valores da consulta 
@@ -180,25 +180,17 @@ class CadastrarConsulta extends Component {
 		//variaveis de inicializaçao 
 		const {medico} = this.state;
 		const {paciente} = this.state;
-		let {situacao} = this.state;
 		const {dataConsulta} = this.state;
+		let {situacao} = this.state;
+		situacao = enumParse(situacao);
+
+		const {medicos} = this.state;
+		const {pacientes} = this.state;
+		const {consultas} = this.state;
 
 		const Medico = this.state.acao !== "Alterar" ? "Selecione um Medico" : "Você não pode mudar o Medico";
 		//validação situação (gambi arra ;-; )
-		switch (situacao) {
-			case "Aguardando":
-				situacao = 1;
-				break;
-			case "Concluida":
-				situacao = 2;
-				break;
-			case "Cancelada":
-				situacao = 3;
-				break;
-			default:
-				situacao = 1;
-				break;
-		}
+
 		
 		return (
 			<div className="App">
@@ -213,7 +205,7 @@ class CadastrarConsulta extends Component {
 								<option value="0" defaultValue>{Medico}</option>
 								{
 
-									this.state.medicos.map(
+									medicos.map(
 										i => {
 											return (
 												<option key={i.id} value={i.id}>{i.nome}</option>
@@ -229,7 +221,7 @@ class CadastrarConsulta extends Component {
 							<select name="paciente" id="paciente" required value={paciente} onChange={(e) => this.setState({ paciente: e.target.value })}>
 								<option value="0" defaultValue>Selecione um paciente</option>
 								{
-									this.state.pacientes.map(
+									pacientes.map(
 										i => {
 											return (
 												<option key={i.id} value={i.id}>{i.nome}</option>
@@ -275,7 +267,7 @@ class CadastrarConsulta extends Component {
 							</thead>
 							<tbody>
 								{
-									this.state.consultas.map(item => {
+									consultas.map(item => {
 										return (
 											<tr key={item.id}>
 												<td>{item.id}</td>

@@ -42,7 +42,6 @@ class VisualizarConsulta extends Component {
 	}
 
 	listarConsultas() {
-		console.log(this.state.Usuario);
 		switch (this.state.Usuario.tipo) {
 			case "Paciente":
 				ApiService.chamada("Paciente/VerConsultas").Listar()
@@ -68,6 +67,12 @@ class VisualizarConsulta extends Component {
 	}
 
 	render() {
+		const {consultas} = this.state;
+		const {consulta} = this.state;
+
+		let aviso = consultas.length > 0? "" : "Você não possui consultas";
+
+		if(parseJwt().Role === "Administrador")aviso = "Administradores não podem ter consultas"
 
 		return (
 			<div className="App">
@@ -78,13 +83,13 @@ class VisualizarConsulta extends Component {
 					<div className="corpo--consultas-container">
 						<div className="corpo--centralizado sombreado">
 							<div id="informacoes--container">
-								<p>Olá<br />{this.state.consultas.nome}</p>
+								{/* <p>Olá<br />{Nome}</p> */}
 								<TituloSublinhado mensagem="Suas Consultas" tamanho="70%" />
 							</div>
 							<div id="consultas--container">
-								<MensagemAviso mensagem="" />
+								<MensagemAviso mensagem={aviso} />
 								{
-									this.state.consultas.map(
+									consultas.map(
 										item => {
 											return (<Consulta
 												key={item.id}
@@ -106,7 +111,7 @@ class VisualizarConsulta extends Component {
 						</div>
 					</div>
 					<div>
-						<ConsultaDetalhada consulta={this.state.consulta} tipoUsuario={this.state.Usuario.tipo} />
+						<ConsultaDetalhada consulta={consulta} tipoUsuario={this.state.Usuario.tipo} />
 					</div>
 				</main>
 			</div>

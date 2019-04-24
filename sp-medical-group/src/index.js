@@ -73,12 +73,12 @@ const rotas = (
                 <Logado path="/minha-area/alterar-consulta" component={AdicionarDescricao}/>
                 
                 <Administrador exact path="/admin" component={AreaAdmin}/>
-                <Administrador path="/admin/cadastrar/usuario" component={CadastrarUsuario}/>
-                <Administrador path="/admin/cadastrar/paciente" component={CadastrarPaciente}/>
-                <Administrador path="/admin/cadastrar/medico" component={CadastrarMedico}/>
-                <Administrador path="/admin/cadastrar/consulta" component={CadastrarConsulta}/>
-                <Administrador path="/admin/cadastrar/clinica" component={CadastrarClinica}/>
-                <Administrador path="/admin/cadastrar/especialidade" component={CadastrarEspecialidade}/>
+                <Administrador path="/admin/dados/usuario" component={CadastrarUsuario}/>
+                <Administrador path="/admin/dados/paciente" component={CadastrarPaciente}/>
+                <Administrador path="/admin/dados/medico" component={CadastrarMedico}/>
+                <Administrador path="/admin/dados/consulta" component={CadastrarConsulta}/>
+                <Administrador path="/admin/dados/clinica" component={CadastrarClinica}/>
+                <Administrador path="/admin/dados/especialidade" component={CadastrarEspecialidade}/>
 
                 <Route exact path="/sem-permissao" component={SemPermissao}/>
 

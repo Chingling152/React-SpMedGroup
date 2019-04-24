@@ -17,6 +17,7 @@ class CadastrarMedico extends Component {
 			usuarios: [],
 			medicos: [],
 
+			id:0,
 			usuario: 0,
 			nome: "",
 			crm: "",
@@ -32,7 +33,24 @@ class CadastrarMedico extends Component {
 	}
 
 	componentDidMount() {
+		this.resetarValores();
+	}
+
+	resetarValores() {
 		if (parseJwt() !== null) {
+			this.setState(
+				{
+					usuario: 0,
+					nome: "",
+					crm: "",
+					clinica: 0,
+					especialidade: 0,
+					acao: "Cadastrar",
+					sucesso: "",
+					erro: "",
+					erros: []
+				}
+			);
 			this.buscarEspecialidades();
 			this.buscarClinicas();
 			this.buscarMedicos();
@@ -108,19 +126,26 @@ class CadastrarMedico extends Component {
 	}
 
 	acaoAlterar(event) {
-		event.preventDefault();
+		this.setState(
+			{
+				id: event.id,
+				usuario: event.idUsuarioNavigation.id,
+				nome: event.nome,
+				crm: event.crm.toUpperCase(),
+				clinica: event.idClinicaNavigation.id,
+				especialidade: event.idEspecialidadeNavigation.id,
+				acao: "Alterar",			
+				sucesso: "",
+				erro: "",
+				erros: []
+			}
+		);
 	}
 
-	alterarNome = (event) => this.setState({ nome: event.target.value });
-	alterarEspecialidade = (event) => this.setState({ especialidade: event.target.value });
-	alterarCrm = (event) => this.setState({ crm: event.target.value });
-	alterarClinica = (event) => this.setState({ clinica: event.target.value });
-	alterarUsuario = (event) => this.setState({ usuario: event.target.value });
-
 	acaoMedico(event) {
+		event.preventDefault();
 		switch (this.state.acao) {
 			case "Cadastrar":
-				event.preventDefault();
 
 				ApiService.chamada("Medico/Cadastrar").Cadastrar(
 					JSON.stringify(
@@ -159,9 +184,21 @@ class CadastrarMedico extends Component {
 			default:
 				break;
 		}
+		this.resetarValores();
 	}
 
 	render() {
+		const {usuario} = this.state;
+		const {nome} = this.state;
+		const {crm} = this.state;
+		const {clinica} = this.state;
+		const {especialidade} = this.state;
+
+		const {usuarios} = this.state;
+		const {medicos} = this.state;
+
+		const Usuario = this.state.acao !== "Alterar" ? "Selecione um usuario" : "Você não pode mudar o usuario";
+
 		return (
 			<div className="App">
 				{Cabecalho()}
@@ -171,10 +208,10 @@ class CadastrarMedico extends Component {
 						<h3>{this.state.acao.toUpperCase()} MÉDICO</h3>
 						<form className="grid--container grid--container-corpo" onSubmit={this.acaoMedico.bind(this)}>
 							<label htmlFor="usuario-medico">Usuario</label>
-							<select name="usuario-medico" id="usuario-medico" required value={this.state.usuario} onChange={this.alterarUsuario.bind(this)}>
-								<option value="0" default>Selecione um usuario</option>
+							<select name="usuario-medico" id="usuario-medico" required value={usuario} onChange={(e) =>{ if(this.state.acao!=="Alterar") this.setState({usuario : e.target.value})} }disabled={(this.state.acao === "Alterar") ? "disabled" : ""}>
+								<option value="0" default>{Usuario}</option>
 								{
-									this.state.usuarios.map(
+									usuarios.map(
 										i => {
 											return (
 												<option key={i.id} value={i.id}>{i.email}</option>
@@ -186,15 +223,15 @@ class CadastrarMedico extends Component {
 							<MensagemErro mensagem={this.state.erros.idUsuario} />
 
 							<label htmlFor="nome-medico">Nome</label>
-							<input type="text" id="nome-medico" placeholder="Nome" maxLength="200" required value={this.state.nome} onChange={this.alterarNome.bind(this)} />
+							<input type="text" id="nome-medico" placeholder="Nome" maxLength="200" required value={nome} onChange={(e) => this.setState({nome : e.target.value})} />
 							<MensagemErro mensagem={this.state.erros.Nome} />
 
 							<label htmlFor="crm-medico">CRM</label>
-							<input type="text" id="crm-medico" placeholder="CRM" maxLength="7" minLength="7" pattern="[0-9]{5}[A-Za-z]{2}" title="Precisa ter 5 numeros e 2 letras (UF)" required value={this.state.crm} onChange={this.alterarCrm.bind(this)} />
-							<MensagemErro mensagem={this.state.erros.Crm} />
+							<input type="text" id="crm-medico" placeholder="CRM" maxLength="7" minLength="7" pattern="[0-9]{5}[A-Za-z]{2}" title="Precisa ter 5 numeros e 2 letras (UF)" required value={crm} onChange={(e) => this.setState({crm : e.target.value})} />
+							<MensagemErro mensagem={this.state.erros.crm} />
 
 							<label htmlFor="clinica-medico">Clinica</label>
-							<select name="clinica-medico" id="clinica-medico" required value={this.state.clinica} onChange={this.alterarClinica.bind(this)}>
+							<select name="clinica-medico" id="clinica-medico" required value={clinica} onChange={(e) => this.setState({clinica: e.target.value})}>
 								<option value="0" default>Selecione uma clinica</option>
 								{
 									this.state.clinicas.map(
@@ -209,7 +246,7 @@ class CadastrarMedico extends Component {
 							<MensagemErro mensagem={this.state.erros.Clinica} />
 
 							<label htmlFor="especialidade-medico">Especialidade</label>
-							<select name="especialidade" id="especialidade" required value={this.state.especialidade} onChange={this.alterarEspecialidade.bind(this)}>
+							<select name="especialidade" id="especialidade" required value={especialidade} onChange={(e) => this.setState({especialidade : e.target.value})}>
 								<option value="0" default>Selecione uma especialidade</option>
 								{
 									this.state.especialidades.map(
@@ -233,6 +270,7 @@ class CadastrarMedico extends Component {
 								<tr>
 									<td>#</td>
 									<td>Nome</td>
+									<td>Email</td>
 									<td>CRM</td>
 									<td>Clinica</td>
 									<td>Especialidade</td>
@@ -241,15 +279,16 @@ class CadastrarMedico extends Component {
 							</thead>
 							<tbody>
 								{
-									this.state.medicos.map(item => {
+									medicos.map(item => {
 										return (
 											<tr key={item.id}>
 												<td>{item.id}</td>
 												<td>{item.nome}</td>
+												<td>{item.idUsuarioNavigation.email}</td>
 												<td>{item.crm}</td>
 												<td>{item.idClinicaNavigation.nomeFantasia}</td>
 												<td>{item.idEspecialidadeNavigation.nome}</td>
-												<td> <a className="link" onClick={this.acaoAlterar.bind(item)}>Alterar</a></td>
+												<td> <a className="link" onClick={()=> this.acaoAlterar(item)}>Alterar</a></td>
 											</tr>
 										);
 									}

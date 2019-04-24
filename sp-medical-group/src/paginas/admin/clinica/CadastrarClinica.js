@@ -159,6 +159,7 @@ class CadastrarClinica extends Component {
 		const {cep} = this.state;
 		const {razaoSocial} = this.state;
 
+		const {clinicas} = this.state;
 
 		return (
 			<div className="App">
@@ -206,7 +207,7 @@ class CadastrarClinica extends Component {
 							</thead>
 							<tbody>
 								{
-									this.state.clinicas.map(item => {
+									clinicas.map(item => {
 										return (
 											<tr key={item.id}>
 												<td>{item.id}</td>

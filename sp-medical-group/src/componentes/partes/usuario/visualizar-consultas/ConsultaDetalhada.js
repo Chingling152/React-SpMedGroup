@@ -4,7 +4,8 @@ import TituloSublinhado from '../../titulos/TituloSublinhado';
 import InformacoesPaciente from '../../publico/informacoes/paciente/InformacoesPaciente';
 import InformacoesMedico from '../../publico/informacoes/medico/InformacoesMedico';
 import InformacoesClinica from '../../publico/informacoes/clinica/InformacoesClinica';
-import ApiService from '../../../../services/ApiService';
+import { enumParse } from '../../../../services/Enums';
+import { TokenUsuario } from '../../../../services/Autenticacao';
 
 class ConsultaDetalhada extends Component {
 	constructor(props) {
@@ -14,53 +15,83 @@ class ConsultaDetalhada extends Component {
 		super(props);
 
 		this.state = {
-			descricao: "",
+			descricao: ""
 		}
 	
 	}
 
 	componentWillReceiveProps(){
-		this.setState({descricao:this.props.consulta.descricao});
-	}
-
-	alterarDescricao(event){
 		this.setState({
-			descricao: event.target.value
+			descricao:this.props.consulta.descricao
 		});
-		
 	}
 
 	alterarConsulta(event){
-		console.log(
-			{
-				id: this.props.consulta.id,
-				idMedico: this.props.consulta.idMedico,
-				idPaciente: this.props.consulta.idPaciente,
-				dataConsulta: this.props.consulta.dataConsulta,
-				descricao: this.state.descricao,
-				statusConsulta: this.props.consulta.statusConsulta
-			}
-		);
-		ApiService.chamada("Consulta/Alterar").Alterar(JSON.stringify(
-			{
-				id: this.props.consulta.id,
-				idMedico: this.props.consulta.idMedico,
-				idPaciente: this.props.consulta.idPaciente,
-				dataConsulta: this.props.consulta.dataConsulta,
-				descricao: this.state.descricao,
-				statusConsulta: this.props.consulta.statusConsulta
-			}
-		))
+		fetch("http://localhost:5000/api/v1/Consulta/Alterar", {
+			method: 'PUT',
+			headers: {
+				"Content-Type": "application/json",
+				"Authorization": "Bearer " + TokenUsuario()
+			},
+			body: JSON.stringify(
+				{
+					Id: this.props.consulta.id,
+					idMedico: this.props.consulta.idMedicoNavigation.id,
+					idPaciente: this.props.consulta.idPacienteNavigation.id,
+					dataConsulta: this.props.consulta.dataConsulta,
+					descricao: this.state.descricao,
+					statusConsulta: enumParse(this.props.consulta.statusConsulta)
+				}
+			)
+		}
+		)
 		.then(resposta => {
-			console.log(resposta)
+			this.receberResposta(resposta)
 			}
 		)
 		.catch(erro => console.log(erro));	
 	}
 	
 
+	receberResposta(resposta) {
+		
+		switch (resposta.status) {
+			case 200:
+			console.log(resposta);
+				resposta.json().then(resultado => {
+					alert(resultado);
+				})
+				
+				break;
+			case 400:
+			case 404:
+			console.log(resposta);
+				resposta.json().then(resultado => {
+					alert(resultado);
+				}
+				)
+				break;
+			case 401:
+			case 403:
+				resposta.json().then(resultado => {
+					this.setState({ erro: resultado })
+				}
+				);
+				break;
+			default:
+				console.log(resposta.json());
+				break;
+		}
+
+	}
+
 	render() {
-		if(this.props.consulta.length !== 0){
+		if(this.props.consulta.length !== 0){	
+			console.log(this.props.consulta.descricao);
+			console.log(this.state.descricao);
+			
+			const {descricao} = this.state;
+
 			const Usuario = this.props.tipoUsuario === "Paciente"?
 			<div>
 				<TituloSublinhado mensagem="Medico" tamanho="50%" />
@@ -75,7 +106,7 @@ class ConsultaDetalhada extends Component {
 			const Funcionalidade = this.props.tipoUsuario === "Medico"?
 				<div>
 					<div className="descricao--consulta">
-						<textarea value={this.state.descricao} onChange={this.alterarDescricao.bind(this)}/>
+						<textarea value={descricao} onChange={(e) => this.setState({descricao: e.target.value})}/>
 						<button onClick={this.alterarConsulta.bind(this)}>Alterar descrição</button>
 					</div>
 				</div>
@@ -88,6 +119,7 @@ class ConsultaDetalhada extends Component {
 					<p>{this.props.consulta.descricao}</p>
 				</div>
 			;
+
 			return (
 				<section id="consulta--detalhada-container" className="corpo--centralizado sombreado">
 					<div>

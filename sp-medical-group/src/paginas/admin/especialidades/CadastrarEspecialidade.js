@@ -132,6 +132,7 @@ class CadastrarEspecialidade extends Component {
 
 	render() {
 		const { especialidade } = this.state;
+		const { especialidades } = this.state;
 		return (
 			<div className="App">
 				{Cabecalho()}
@@ -159,7 +160,7 @@ class CadastrarEspecialidade extends Component {
 							</thead>
 							<tbody>
 								{
-									this.state.especialidades.map(
+									especialidades.map(
 										i => {
 											return (
 												<tr key={i.id}>
