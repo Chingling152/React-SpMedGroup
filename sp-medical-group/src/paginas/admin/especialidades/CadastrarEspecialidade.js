@@ -68,7 +68,8 @@ class CadastrarEspecialidade extends Component {
 							sucesso: resultado
 						}
 					);
-				})
+				});
+				this.resetarValores();
 				break;
 			case 400:
 			case 404:
@@ -77,7 +78,7 @@ class CadastrarEspecialidade extends Component {
 						erros: resultado
 					});
 				}
-				)
+				);
 				break;
 			case 401:
 			case 403:
@@ -136,7 +137,7 @@ class CadastrarEspecialidade extends Component {
 		return (
 			<div className="App">
 				{Cabecalho()}
-				<main className="grid--container grid--container-corpo">
+				<main className="grid--container grid--container-corpo cadastro">
 					<div className="sombreado corpo--centralizado corpo--formulario cadastro">
 						{/* <div className="icone--spmedgroup"></div> */}
 						<h3>{this.state.acao.toUpperCase()} ESPECIALIDADE</h3>

@@ -336,3 +336,126 @@ button:active , button:focus{
     width: 400px;
     height: 150px;
 }
+
+@media only screen and (max-width:1200px){
+    main.grid--container-corpo.cadastro{
+        grid-template-columns: 100%;
+        grid-row-gap: 30px;
+    }
+
+    form.grid--container-corpo{
+        padding: 3% 15%;
+    }
+
+    .corpo--centralizado{
+        max-width: 90%;
+    }
+
+    .grid--container-cabecalho {
+        grid-template-columns: 55% 15% 15% 15%;
+    }
+
+    #cabecalho .icone--spmedgroup {
+        width: 20%;
+    }
+
+    .corpo--formulario.cadastro{
+        max-width: 60%;
+    }
+}
+
+@media only screen and (max-width:900px){
+    main.grid--container-corpo {
+        grid-template-columns: 100%;
+    }
+
+    .corpo--centralizado{
+        max-width: 70%;
+    }
+    .corpo--formulario {
+        padding: 2% 0%;
+    }
+    
+    #cabecalho .icone--spmedgroup {
+        width: 20%;
+    }
+
+    .opcoes--cadastrar a{
+        width: 45%;
+    }
+
+    .corpo--centralizado {
+        margin: 30px auto;
+    }
+}
+
+@media only screen and (max-width:700px){
+    .grid--container-cabecalho {
+        grid-template-columns: 40% 20% 20% 20%;
+    }
+    #cabecalho .icone--spmedgroup {
+        width: 30%;
+    }
+    form.grid--container-corpo {
+        padding: 3% 5%;
+    }
+    .tabela-corpo {
+        height: 100%;
+    }
+    .tabela {
+        min-width: 100%;
+    }
+    .corpo--centralizado {
+        margin: 30px auto;
+    }
+    .corpo--formulario {
+        padding: 3% 5%;
+    }
+}
+
+@media only screen and (max-width:600px){
+    .grid--container-cabecalho {
+        grid-template-columns: 25% 25% 25% 25%;
+    }
+
+    #cabecalho .icone--spmedgroup {
+        width: 50%;
+    }
+
+    p , span, input::placeholder{
+        font-size: 12px;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        letter-spacing: 2px;
+    }
+    .corpo--centralizado{
+        width: 90%;
+    }
+    .corpo--formulario.cadastro {
+        width: 90%;
+    }
+}
+
+@media only screen and (max-width:500px){
+    .corpo--centralizado{
+        max-width: 100%;
+    }
+
+    .grid--container-cabecalho {
+        grid-template-columns: 34% 33% 33%;
+    }
+
+    #cabecalho .icone--spmedgroup {
+        display: none
+    }
+
+    #cabecalho nav {
+        padding-top: 0%;
+        text-align: center;
+    }
+
+    h1{
+        font-size: 1.2em;
+    }
+}

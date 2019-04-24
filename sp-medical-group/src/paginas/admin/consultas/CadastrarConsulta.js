@@ -195,8 +195,8 @@ class CadastrarConsulta extends Component {
 		return (
 			<div className="App">
 				{Cabecalho()}
-				<main className="grid--container grid--container-corpo">
-					<div className="sombreado corpo--centralizado corpo--formulario cadastro">
+				<main className="grid--container grid--container-corpo cadastro">
+					<div className="sombreado corpo--centralizado corpo--formulario cadastro" >
 						<h3>{this.state.acao.toUpperCase()} CONSULTA</h3>
 						<form className="grid--container grid--container-corpo" onSubmit={this.acaoConsulta.bind(this)}>
 

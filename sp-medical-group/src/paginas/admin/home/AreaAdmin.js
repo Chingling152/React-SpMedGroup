@@ -7,7 +7,7 @@ class AreaAdmin extends Component {
 			<div className="App">
 				{Cabecalho()}
 				<div className="sombreado corpo--centralizado corpo--formulario">
-					<h1>O que deseja Cadastrar (ou Alterar)?</h1>
+					<h1>O que deseja Cadastrar?</h1>
 					<nav className="opcoes--cadastrar">
 						<a href="/admin/dados/medico">Medicos</a>
 						<a href="/admin/dados/consulta">Consultas</a>

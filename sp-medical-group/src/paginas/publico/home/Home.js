@@ -38,9 +38,9 @@ class Home extends Component {
 					Cabecalho()
 				}
 				<main className="grid--container grid--container-corpo">
-					<div className="sombreado corpo--centralizado"  >
+					<div id="corpo" className="sombreado corpo--centralizado" >
 						<h1>SP Medical Group</h1>
-						<div id="corpo">
+						<div>
 							<section>
 								<TituloSublinhado mensagem="Sobre nós" tamanho="70%" />
 								<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat quod voluptate dolorem delectus accusamus distinctio. Sapiente alias explicabo libero ad temporibus aliquid perspiciatis laboriosam nesciunt amet doloremque. Voluptatibus, in sit?</p>
@@ -58,7 +58,6 @@ class Home extends Component {
 								<TituloSublinhado mensagem="Instituições que usam nosso serviço" tamanho="90%" />
 								<div className="grid--container tres--colunas">
 									{instituicoes.map(i=> <p key={i.id}>{i.nomeFantasia}</p>)}
-									
 								</div>
 							</section>
 						</div>

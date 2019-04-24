@@ -4,3 +4,9 @@
     width: 100%;
     height:100vh;
 }
+
+@media only screen and (max-width:900px){
+    #foto--login{
+        display: none;
+    }
+}

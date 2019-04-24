@@ -101,6 +101,7 @@ class CadastrarMedico extends Component {
 						}
 					);
 				})
+				this.resetarValores();
 				break;
 			case 400:
 			case 404:
@@ -120,6 +121,7 @@ class CadastrarMedico extends Component {
 				break;
 			default:
 				console.log(resposta.json());
+				this.resetarValores();
 				break;
 		}
 
@@ -184,7 +186,6 @@ class CadastrarMedico extends Component {
 			default:
 				break;
 		}
-		this.resetarValores();
 	}
 
 	render() {
@@ -202,7 +203,7 @@ class CadastrarMedico extends Component {
 		return (
 			<div className="App">
 				{Cabecalho()}
-				<main className="grid--container grid--container-corpo">
+				<main className="grid--container grid--container-corpo cadastro">
 					<div className="sombreado corpo--centralizado corpo--formulario cadastro">
 						{/* <div className="icone--spmedgroup"></div> */}
 						<h3>{this.state.acao.toUpperCase()} MÉDICO</h3>
@@ -223,11 +224,11 @@ class CadastrarMedico extends Component {
 							<MensagemErro mensagem={this.state.erros.idUsuario} />
 
 							<label htmlFor="nome-medico">Nome</label>
-							<input type="text" id="nome-medico" placeholder="Nome" maxLength="200" required value={nome} onChange={(e) => this.setState({nome : e.target.value})} />
+							<input type="text" id="nome-medico" placeholder="Nome" maxLength="200" required pattern="[A-Za-z]{1}" value={nome} onChange={(e) => this.setState({nome : e.target.value})} />
 							<MensagemErro mensagem={this.state.erros.Nome} />
 
 							<label htmlFor="crm-medico">CRM</label>
-							<input type="text" id="crm-medico" placeholder="CRM" maxLength="7" minLength="7" pattern="[0-9]{5}[A-Za-z]{2}" title="Precisa ter 5 numeros e 2 letras (UF)" required value={crm} onChange={(e) => this.setState({crm : e.target.value})} />
+							<input type="text" id="crm-medico" placeholder="CRM" maxLength="7" minLength="7" pattern="[0-9]{5}[A-Z]{2}" title="Precisa ter 5 numeros e 2 letras (UF)" required value={crm} onChange={(e) => this.setState({crm : e.target.value})} />
 							<MensagemErro mensagem={this.state.erros.crm} />
 
 							<label htmlFor="clinica-medico">Clinica</label>

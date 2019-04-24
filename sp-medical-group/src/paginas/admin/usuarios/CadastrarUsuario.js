@@ -67,6 +67,7 @@ class CadastrarUsuario extends Component {
 							}
 						);
 					})
+					this.resetarValores();
 					break;
 				case 400:
 				case 404:
@@ -86,6 +87,7 @@ class CadastrarUsuario extends Component {
 					break;
 				default:
 					console.log(resposta.json());
+					this.resetarValores();
 					break;
 			}
 		
@@ -161,7 +163,6 @@ class CadastrarUsuario extends Component {
 			default:
 				break;
 		}
-		this.resetarValores();
 	}
 
 	render() {
@@ -185,7 +186,7 @@ class CadastrarUsuario extends Component {
 		return (
 			<div className="App">
 				{Cabecalho()}
-				<main className="grid--container grid--container-corpo">
+				<main className="grid--container grid--container-corpo cadastro">
 					<div className="sombreado corpo--centralizado corpo--formulario cadastro">
 						{/* <div className="icone--spmedgroup"></div> */}
 						<h3>{this.state.acao.toUpperCase()} USUARIO</h3>

@@ -4,7 +4,7 @@
     background-size: cover;
 }   
 
-#corpo{
+#corpo > div{
     display: grid;
     grid-row-gap: 10px;
     grid-template-rows: 30% 40% 30%;
@@ -44,4 +44,13 @@
 
 .tres--colunas > p {
     margin-top: 20px;
+}
+
+@media only screen and (max-width:900px){
+    #foto--home{
+        display: none;
+    }
+    #corpo.grid--container-corpo{
+        background: #F6F6F6 url("../../../recursos/imagens/home/doctor-medical-medicine-health.jpeg") no-repeat 100% center;    
+    }
 }
