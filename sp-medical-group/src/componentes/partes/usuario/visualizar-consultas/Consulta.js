@@ -11,7 +11,7 @@ class Consulta extends Component {
 		
 		const Descricao = this.props.descricao !== undefined?
 		<p className="descricao--consulta">{this.props.descricao.slice(0,117)+"..."}</p>:
-		<p>Sem descrição disponivel</p>
+		<p>...</p>
 		;
 		return (
 			<section className="consulta--container" key={this.props.id}>

@@ -27,11 +27,14 @@ class VisualizarConsulta extends Component {
 			erro: ""
 		}
 
+		this.listarConsultasRef = React.createRef();
+		this.listarConsultas = this.listarConsultas.bind(this);
 	}
 
 	componentDidMount() {
 		if(parseJwt() != null){
 			this.listarConsultas();
+			this.listarConsultasRef.current = this.listarConsultas;
 		}else{
 			this.props.history.push("/");
 		}
@@ -111,7 +114,7 @@ class VisualizarConsulta extends Component {
 						</div>
 					</div>
 					<div>
-						<ConsultaDetalhada consulta={consulta} tipoUsuario={this.state.Usuario.tipo} />
+						<ConsultaDetalhada consulta={consulta} tipoUsuario={this.state.Usuario.tipo} metodo={this.listarConsultasRef}/>
 					</div>
 				</main>
 			</div>

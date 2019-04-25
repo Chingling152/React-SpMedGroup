@@ -31,7 +31,11 @@ class Home extends Component {
 			<a href="/login" className="link">Fazer Login</a> : 
 			Usuario.Role === "Administrador"? 
 				<a href="/admin" className="link">Veja sua area</a> : 
-				<a href="/??" className="link">Veja sua area</a> ;
+				<a href="/nãotem" className="link">Veja sua area</a> ;
+
+		const VantagemAdmin = Usuario !== null && Usuario.Role === "Admnistrador"?
+		<Vantagem mensagem="Veja todas as consultas" icone="icone-calendario" link="/admin/dados/consulta" />:
+		<Vantagem mensagem="Veja todas as suas consultas" icone="icone-calendario" link="/minha-area/consultas" />;
 		return (
 			<div className="App">
 				{
@@ -49,7 +53,7 @@ class Home extends Component {
 								<TituloSublinhado mensagem="Sobre nosso produto" tamanho="70%" />
 								<div className="grid--container grid--container-informacoes">
 									<Vantagem mensagem="Receba notificações no seu celular" icone="icone-celular" click={()=>alert("Ainda estamos trabalhando nisso")}/>
-									<Vantagem mensagem="Veja todas as suas consultas" icone="icone-calendario" link="/minha-area/consultas" />
+									{VantagemAdmin}
 									<Vantagem mensagem="Saiba como chegar ao local de suas consultas" icone="icone-checkpoint" click={()=>alert("Ainda estamos trabalhando nisso")} />
 								</div>
 								{LoginBtn}

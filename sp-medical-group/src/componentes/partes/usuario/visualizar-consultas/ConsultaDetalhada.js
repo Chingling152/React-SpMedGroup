@@ -15,7 +15,8 @@ class ConsultaDetalhada extends Component {
 		super(props);
 
 		this.state = {
-			descricao: ""
+			descricao: "",
+			metodo : []
 		}
 	
 	}
@@ -23,7 +24,10 @@ class ConsultaDetalhada extends Component {
 	componentWillReceiveProps(){
 		this.setState({
 			descricao:this.props.consulta.descricao
-		});
+		}, () => this.setState({descricao:this.props.consulta.descricao}));
+		this.setState({
+			metodo:this.props.metodo
+		}, () => this.setState({metodo:this.props.metodo}));
 	}
 
 	alterarConsulta(event){
@@ -61,7 +65,6 @@ class ConsultaDetalhada extends Component {
 				resposta.json().then(resultado => {
 					alert(resultado);
 				})
-				
 				break;
 			case 400:
 			case 404:
@@ -86,8 +89,10 @@ class ConsultaDetalhada extends Component {
 	}
 
 	render() {
-		if(this.props.consulta.length !== 0){			
+		if(this.props.consulta.length !== 0){	
 			const {descricao} = this.state;
+			console.log(descricao);	
+			console.log(this.state.metodo);	
 
 			const Usuario = this.props.tipoUsuario === "Paciente"?
 			<div>
@@ -107,7 +112,7 @@ class ConsultaDetalhada extends Component {
 						<button onClick={this.alterarConsulta.bind(this)}>Alterar descrição</button>
 					</div>
 				</div>
-			:this.props.consulta.descricao === ""? 
+			:this.props.consulta.descricao === "" || this.props.consulta.descricao === null? 
 				<section className="descricao--consulta">
 					<h1>Sem descrição</h1>
 				</section>

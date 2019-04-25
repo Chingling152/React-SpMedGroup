@@ -53,7 +53,7 @@ class CadastrarPaciente extends Component {
 			this.buscarPacientes();
 			this.buscarUsuarios();
 		} else {
-			this.history.push("/");
+			this.props.history.push("/");
 		}
 	}
 
@@ -263,7 +263,6 @@ class CadastrarPaciente extends Component {
 										);
 									}
 									)
-
 								}
 							</tbody>
 						</table>

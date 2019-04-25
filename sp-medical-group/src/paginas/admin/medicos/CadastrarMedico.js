@@ -56,7 +56,7 @@ class CadastrarMedico extends Component {
 			this.buscarMedicos();
 			this.buscarUsuarios();
 		} else {
-			this.history.push("/");
+			this.props.history.push("/");
 		}
 	}
 

@@ -27,7 +27,7 @@ class CadastrarEspecialidade extends Component {
 		if (parseJwt() !== null) {
 			this.buscarEspecialidades();
 		} else {
-			this.history.push("/");
+			this.props.history.push("/");
 		}
 	}
 

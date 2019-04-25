@@ -172,7 +172,7 @@ class CadastrarConsulta extends Component {
 			this.buscarMedicos();
 			this.buscarConsultas();
 		} else {
-			this.history.push("/");
+			this.props.history.push("/");
 		}
 	}
 
