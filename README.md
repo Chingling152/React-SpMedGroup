@@ -6,8 +6,8 @@ Site para a empresa fantasma Sp Medical Group
  1.2. **[Instalação](#Instalação)**  
 2. **Sobre o projeto**  
  2.1. **Arquitetura do projeto**  
- 2.2. **Cronograma do projeto** 
-3. **Utilizando o projeto** 
+ 2.2. **Cronograma do projeto**  
+3. **Utilizando o projeto**  
  3.1. **Paginas**  
  3.2. **Permissões**  
 4. **Responsividade**  
@@ -42,6 +42,58 @@ Aqui ficará a*"receita"* de como instalar a aplicação, siga todos os passos :
    4.5. Vá para pasta C:\Users\\**{NomeDoUsuario}**\AppData\Roaming\npm\node_modules\create-react-app e copie a pasta **node_modules**
    4.6. Cole a pasta node_modules dento da pasta **sp-medical-group**   
  5. Abra o prompt de comando no diretorio do projeto (mesma pasta) e execute o comando *npm start*  
+ 6. O projeto será aberto em uma aba do seu navegador padrão  
+ 7. Algumas informações extras -> [README.md](https://github.com/Chingling152/React-SpMedicalGroup/blob/master/sp-medical-group/README.md)  
+
+### 2.. Sobre o projeto  
+Aqui terá informações sobre o projeto em geral.  
+#### 2.1. Arquitetura do projeto  
+Precisei criar esse arquivo para explicar onde está cada coisa do projeto (pois ele é muito grande e dividido em várias pastas).  
+##### 2.1.1. Paginas  
+Aqui ficam todas as páginas do projeto.  Todas os arquivos de cada pasta são acessados através do arquivo **src/index.js**.  
+
+* **Administrador**   
+Aqui ficam todas as pastas de funcionalidades do Administrador. Essas páginas só podem ser acessadas caso o usuário seja um administrador.  
+**Home**: A página inicial do administrador, todas as outras páginas só podem ser acessadas através dela.  
+**Médicos/Pacientes/Especialidades/Instituições/Consultas**: São pastas onde o administrador poderá alterar ou cadastrar novos dados utilizando a API.  
+* **Usuário**  
+Aqui ficam todas as pastas de funcionalidades de um Usuário autenticado. Não deve ser confundida com a pasta Público. Essas páginas só são acessíveis para um usuário que tenha uma conta e esteja logado nela.  
+Todas as páginas podem ter diferenças (depende do nível de privilégio do usuário. Exemplo: a página de usuário de um médico terá mais funcionalidades do que a de um paciente)
+**Home**: A página inicial do usuário, todas as outras páginas só podem ser acessadas através dela.
+**Consultas**: Aqui ficará todas as informações de todas as consultas desse usuário. Médicos poderão alterar algumas informações delas enquanto pacientes poderão apenas visualiza-las.  
+* **Publico**  
+Aqui ficam todas as páginas que podem ser acessadas por qualquer pessoa independentemente de estar logada.  
+**Home**: A página inicial da aplicação, todos os usuários começam aqui caso não estejam logados.
+**Login**: Aqui é a página onde qualquer pessoa pode entrar em sua conta e ter acesso a todas as funções de um Administrador ou Usuário.  
+Falhas: Páginas que são acessadas apenas quando o usuário tenta acessar uma página que não existe ou que ele não tem permissão.  
+
+##### 2.1.2. Componentes
+Nesta pasta ficarão partes que são reutilizadas em várias pastas (um bom exemplo é o Cabeçalho)
+* **Feedback**  
+Pasta onde tem qualquer componente responsável por retornar uma mensagem ao usuário.
+* **Partes**  
+São componentes comuns que compõem as paginas  
+
+##### 2.1.3. Recursos  
+Qualquer outro recurso que é usado pelas paginas do site (fotos/videos/icones/arquivos de estilização)  
+
+##### 2.1.4. Services
+Todos scripts que são usados e compartilhados por varias paginas (e sim, poderia haver mais arquivos e eles poderiam estar mais organizados. Só que por agora está bom)  
+* **Autenticacao.TokenUsuario**  
+Busca o valor do token armazenado localmente e o retorna  
+* **Autenticacao.jwtParse**  
+Converte o token do metodo *Autenticacao.TokenUsuario* e envia para o metodo *Autenticacao.TokenValido* se ele for valido , o retorna em forma de objeto , se não , retorna null  
+* **Autenticacao.TokenValido**  
+Verifica se a data de espiração do token é menor do que a data atual. Se ela for , ele ainda é valido.  
+* **ApiService.chamada**  
+Uma promessa que pode fazer 4 ações diferentes. 
+Essa promessa precisa ter um endpoint (parte do link da API) para saber onde deverá ser feita a requisição.  
+Os metodos dessa promessa serão o que será feito nessa requisição (Alterar valores , cadastrar , enviar , buscar ,etc).  
+  * **Login** : Metodo uti apenas para o usuario. Semelhante ao CADASTRAR , mas este metodo não precisa do token.  
+  * **Alterar** : Envia uma requisição na API para alterar algum valor (precisa de um corpo para ser enviado , ou seja um objeto que se encaixe no padrão da endpoint API)  
+  * **Cadastrar** : Envia uma requisição na API para enviar um valor (possivelmente inseri-lo no banco de dados) , assim como o metodo ALTERAR , precisa de um corpo que se encaixe com o valor aceito no endpoint da API  
+* **Cabecalho**  
+* **Enums.enumParse**  
 
 ## Agradecimentos
 Alguns links que foram muito uteis na criação desse projeto

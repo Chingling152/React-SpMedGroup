@@ -86,10 +86,7 @@ class ConsultaDetalhada extends Component {
 	}
 
 	render() {
-		if(this.props.consulta.length !== 0){	
-			console.log(this.props.consulta.descricao);
-			console.log(this.state.descricao);
-			
+		if(this.props.consulta.length !== 0){			
 			const {descricao} = this.state;
 
 			const Usuario = this.props.tipoUsuario === "Paciente"?

@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { parseJwt } from '../../../../services/Autenticacao';
 
 class Consulta extends Component {
 	render() {
-		const Usuario = this.props.medico !== null?
+		const valido = parseJwt() !== null;
+		if(valido){
+		const Usuario =  parseJwt().Role === "Paciente"?
 			<p>{this.props.medico.nome}</p>:
 			<p>{this.props.paciente.nome}</p>;
 		
@@ -24,6 +27,7 @@ class Consulta extends Component {
 				<hr />
 			</section>
 		);
+	}
 	}
 }
 

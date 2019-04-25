@@ -41,7 +41,7 @@ class VisualizarConsulta extends Component {
 		this.setState({ consulta: item });
 	}
 
-	listarConsultas() {
+	listarConsultas() {	
 		switch (this.state.Usuario.tipo) {
 			case "Paciente":
 				ApiService.chamada("Paciente/VerConsultas").Listar()
