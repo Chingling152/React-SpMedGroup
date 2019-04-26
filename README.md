@@ -6,17 +6,15 @@ Site para a empresa fantasma Sp Medical Group
  1.2. **[Instalação](#Instalação)**  
 2. **[Sobre o projeto](#Sobre-o-projeto)**  
  2.1. **[Arquitetura do projeto](#Arquitetura-do-projeto)**  
- 2.2. **Cronograma do projeto**  
-3. **Utilizando o projeto**  
- 3.1. **Paginas**  
- 3.2. **Permissões**  
-4. **Responsividade**  
- 4.1. **Telas suportadas**  
- 4.2. **Mudanças**  
-5. **Prototipação**  
- 5.1. **Wireframe**  
- 5.2. **Design**  
-6. **Agradecimentos**  
+ 2.2. **[Cronograma do projeto](#Cronograma-do-projeto)**  
+3. **[Utilizando o projeto](#Utilizando-o-projeto)**  
+ 3.1. **[Permissões](#Permissões)**  
+ 3.2. **[Validação](#Validação)**  
+ 3.3. **[Autenticação](#Autenticação)**  
+4. **Prototipação**  
+ 4.1. **Wireframe**  
+ 4.2. **Design**  
+6. **[Links](#Links)**  
 
 ## 1. Instalando o projeto
 Para iniciar esse projeto você irá precisar executar **todos** esses passos para que o programa funcione
@@ -45,7 +43,7 @@ Aqui ficará a*"receita"* de como instalar a aplicação, siga todos os passos :
  6. O projeto será aberto em uma aba do seu navegador padrão  
  7. Algumas informações extras -> [README.md](https://github.com/Chingling152/React-SpMedGroup/blob/master/sp-medical-group/README.md)  
 
-### 2.. Sobre o projeto  
+### 2. Sobre o projeto  
 Aqui terá informações sobre o projeto em geral.  
 #### 2.1. Arquitetura do projeto  
 Precisei criar esse arquivo para explicar onde está cada coisa do projeto (pois ele é muito grande e dividido em várias pastas).  
@@ -89,30 +87,46 @@ Verifica se a data de espiração do token é menor do que a data atual. Se ela 
 Uma promessa que pode fazer 4 ações diferentes. 
 Essa promessa precisa ter um endpoint (parte do link da API) para saber onde deverá ser feita a requisição.  
 Os metodos dessa promessa serão o que será feito nessa requisição (Alterar valores , cadastrar , enviar , buscar ,etc).  
-  * **Login** : Metodo uti apenas para o usuario. Semelhante ao CADASTRAR , mas este metodo não precisa do token.  
+  * **Login** : Metodo uti apenas para o usuario. Semelhante ao *CADASTRAR* , mas este metodo não precisa do token.  
   * **Alterar** : Envia uma requisição na API para alterar algum valor (precisa de um corpo para ser enviado , ou seja um objeto que se encaixe no padrão da endpoint API)  
-  * **Cadastrar** : Envia uma requisição na API para enviar um valor (possivelmente inseri-lo no banco de dados) , assim como o metodo ALTERAR , precisa de um corpo que se encaixe com o valor aceito no endpoint da API  
+  * **Cadastrar** : Envia uma requisição na API para enviar um valor (possivelmente inseri-lo no banco de dados) , assim como o metodo *ALTERAR* , precisa de um corpo que se encaixe com o valor aceito no endpoint da API  
 * **Cabecalho**  
 Recebe os valores do token (armazenado localmente), verifica se ele não é nulo e qual o nivel de privilegio dele e retorna um cabeçalho com as funcionalidades disponiveis para o Usuario  
 * **Enums.enumParse**  
-Converte uma enumeração do tipo EnSituacaoConsulta para um valor numerico sendo :  
+Converte uma enumeração do tipo *EnSituacaoConsulta* para um valor numerico sendo :  
  - 1 => Aguardando  
  - 2 => Concluida  
  - 3 => Cancelada  
   
 #### Cronograma do projeto
-Aqui ficara  o cronograma do projeto (Iniciado de 12/04 e finalizado dia 26/04)  
+Aqui ficara o cronograma do projeto (Iniciado de 12/04 e finalizado dia 26/04).  
+Para melhores informações tem o [cronograma.png](#) e [README.md](#) na pasta Informações do projeto.  
 
-- **Dia 1**  
-Apenas inicieis os layouts de baixa fidelidade e organizei as pastas do projeto.  
-- **Dia 2**  
-Finalizei a pagina de login e já criei ela (sem funcionalidade). Também criei os redirecionamento para todas as telas (ainda vazias)  
-- **Dia 3**  
-Finalizei o design da pagina de listagem de consultas e a criei (sem nenhuma funcionalidade)  
-- **Dia 4**  
-Reformulei a API  
+### Utilizando o projeto  
+É um site simples onde tentei focar mais em UX do que no layout então não precisa de muitas informações de como usa-lo, só deixarei algumas informações.  
+**Não é possivel (ainda) recuperar e alterar a sua senha**.  
+**Somente um administrador pode cadastrar novos Usuarios** . Então você deve ter pelo menos um usuario cadastrado no banco de dados (com privilegios de administrador) para poder usar a aplicação.  
+Ainda não existe filtragem de consultas.  
+Para criar um **Paciente** ou **Medico** você precisa criar um **Usuario** antes com o nivel de privilegio desejado.  
+O site ainda não tem todas as sua funcionalidades (Mas está completo por agora).  
 
-## Agradecimentos
+#### Permissões  
+
+- **Administradores** tem acesso a todas as paginas do site.  
+- **Administradores** podem cadastrar e alterar dados de Usuarios / Pacientes / Medicos / Consultas / Clinicas.  
+- **Administradores** não podem adcionar descrição às consultas.  
+- **Administradores** não podem ter consultas e então não tem acesso a pagina de visualizar suas proprias consultas.  
+- **Medicos** e **Pacientes** tem o mesmo nivel de acesso podendo acessar as mesma paginas só que com 
+- **Medicos** só podem alterar a descrição de suas consultas.  
+
+### Validação  
+O site tem uma validação boa, mas não é o foco principal deixar o front-end com tanta segurança assim, então algumas vezes os dados vão até a API para serem validados ao inves de serem validados ali mesmo.  
+Grande parte dos dados que são validados são coisas simples como valores requiridos ou algo fora do padrão (como por exemplo inserir uma senha com menos de 8 caracteres). Mas a maioria dos dados são validados na API (Veja : [Api : Validação e Autenticação](https://github.com/Chingling152/WebApi-SPMedGroup#Valida%C3%A7%C3%A3o-e-Autoriza%C3%A7%C3%A3o))   
+
+### Prototipação  
+
+
+## Links
 Alguns links que foram muito uteis na criação desse projeto
 - **[Propriedades, componentização , redirecionamento , validação , conexão com API ,etc..](https://github.com/senai-desenvolvimento/1s2019-t2-sprint-4-frontend)**
 - **[Como resetar campos com react](https://stackoverflow.com/questions/47171437/is-this-correct-way-to-clean-input-in-react)**  
