@@ -15,8 +15,7 @@ class ConsultaDetalhada extends Component {
 		super(props);
 
 		this.state = {
-			descricao: "",
-			metodo : []
+			descricao: ""
 		}
 	
 	}
@@ -25,9 +24,6 @@ class ConsultaDetalhada extends Component {
 		this.setState({
 			descricao:this.props.consulta.descricao
 		}, () => this.setState({descricao:this.props.consulta.descricao}));
-		this.setState({
-			metodo:this.props.metodo
-		}, () => this.setState({metodo:this.props.metodo}));
 	}
 
 	alterarConsulta(event){
@@ -54,6 +50,8 @@ class ConsultaDetalhada extends Component {
 			}
 		)
 		.catch(erro => console.log(erro));	
+
+		this.props.metodo.current();
 	}
 	
 
@@ -85,7 +83,6 @@ class ConsultaDetalhada extends Component {
 				console.log(resposta.json());
 				break;
 		}
-
 	}
 
 	render() {

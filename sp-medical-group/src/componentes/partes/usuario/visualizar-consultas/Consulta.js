@@ -5,7 +5,7 @@ class Consulta extends Component {
 	render() {
 		const valido = parseJwt() !== null;
 		if(valido){
-		const Usuario =  parseJwt().Role === "Paciente"?
+		const Usuario = parseJwt().Role === "Paciente"?
 			<p>{this.props.medico.nome}</p>:
 			<p>{this.props.paciente.nome}</p>;
 		

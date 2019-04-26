@@ -43,7 +43,7 @@ Aqui ficará a*"receita"* de como instalar a aplicação, siga todos os passos :
    4.6. Cole a pasta node_modules dento da pasta **sp-medical-group**   
  5. Abra o prompt de comando no diretorio do projeto (mesma pasta) e execute o comando *npm start*  
  6. O projeto será aberto em uma aba do seu navegador padrão  
- 7. Algumas informações extras -> [README.md](https://github.com/Chingling152/React-SpMedicalGroup/blob/master/sp-medical-group/README.md)  
+ 7. Algumas informações extras -> [README.md](https://github.com/Chingling152/React-SpMedGroup/blob/master/sp-medical-group/README.md)  
 
 ### 2.. Sobre o projeto  
 Aqui terá informações sobre o projeto em geral.  
@@ -100,7 +100,18 @@ Converte uma enumeração do tipo EnSituacaoConsulta para um valor numerico send
  - 2 => Concluida  
  - 3 => Cancelada  
   
-## Arquitetura do projeto
+#### Cronograma do projeto
+Aqui ficara  o cronograma do projeto (Iniciado de 12/04 e finalizado dia 26/04)  
+
+- **Dia 1**  
+Apenas inicieis os layouts de baixa fidelidade e organizei as pastas do projeto.  
+- **Dia 2**  
+Finalizei a pagina de login e já criei ela (sem funcionalidade). Também criei os redirecionamento para todas as telas (ainda vazias)  
+- **Dia 3**  
+Finalizei o design da pagina de listagem de consultas e a criei (sem nenhuma funcionalidade)  
+- **Dia 4**  
+Reformulei a API  
+
 ## Agradecimentos
 Alguns links que foram muito uteis na criação desse projeto
 - **[Propriedades, componentização , redirecionamento , validação , conexão com API ,etc..](https://github.com/senai-desenvolvimento/1s2019-t2-sprint-4-frontend)**
