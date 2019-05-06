@@ -11,9 +11,9 @@ Site para a empresa fantasma Sp Medical Group
  3.1. **[Permissões](#Permissões)**  
  3.2. **[Validação](#Validação)**  
  3.3. **[Autenticação](#Autenticação)**  
-4. **Prototipação**  
- 4.1. **Wireframe**  
- 4.2. **Design**  
+4. **[Prototipação](#Prototipação)**  
+ 4.1. **[Wireframe](#Wireframe)**  
+ 4.2. **[Design](#Design)**  
 6. **[Links](#Links)**  
 
 ## 1. Instalando o projeto
@@ -109,6 +109,8 @@ Para melhores informações tem o [cronograma.png](#) e [README.md](#) na pasta 
 Ainda não existe filtragem de consultas.  
 Para criar um **Paciente** ou **Medico** você precisa criar um **Usuario** antes com o nivel de privilegio desejado.  
 O site ainda não tem todas as sua funcionalidades (Mas está completo por agora).  
+#### Iniciando projeto  
+Para iniciar o projeto
 
 #### Permissões  
 
@@ -119,12 +121,20 @@ O site ainda não tem todas as sua funcionalidades (Mas está completo por agora
 - **Medicos** e **Pacientes** tem o mesmo nivel de acesso podendo acessar as mesma paginas só que com 
 - **Medicos** só podem alterar a descrição de suas consultas.  
 
-### Validação  
+#### Validação  
 O site tem uma validação boa, mas não é o foco principal deixar o front-end com tanta segurança assim, então algumas vezes os dados vão até a API para serem validados ao inves de serem validados ali mesmo.  
 Grande parte dos dados que são validados são coisas simples como valores requiridos ou algo fora do padrão (como por exemplo inserir uma senha com menos de 8 caracteres). Mas a maioria dos dados são validados na API (Veja : [Api : Validação e Autenticação](https://github.com/Chingling152/WebApi-SPMedGroup#Valida%C3%A7%C3%A3o-e-Autoriza%C3%A7%C3%A3o))   
 
 ### Prototipação  
+O site teve prototipação, mas depois que os prazos foram apertando e eu vi que isso estava tomando muito tempo meu , eu tive que pular direto pra a parte do codigo.  
+O resultados tambem não foram iguais.  
 
+#### Wireframe  
+Todos os layouts de baixa fidelidade estão aqui (Web e mobile (mobile será movido para outro projeto)) [Neste Link](https://github.com/Chingling152/React-SpMedGroup/tree/master/Anexos/Layout%20de%20baixa%20fidelidade).
+A prototipação mobile não tem muito a ver com resposividade (afinal o site não ficou totalmente responsivo mesmo eu utilizando display:grid )  
+#### Design  
+O design de alta fidelidade não foi algo tão preciso quando os de baixa fidelidade.  
+Talvez aqui eu deixe uma foto de comparação do projeto final e a Prototipação.  
 
 ## Links
 Alguns links que foram muito uteis na criação desse projeto
