@@ -5,7 +5,7 @@ import MensagemErro from '../../../componentes/feedback/MensagemErro';
 import MensagemSucesso from '../../../componentes/feedback/MensagemSucesso';
 
 import { Cabecalho } from '../../../services/Cabecalho';
-import ApiService from '../../../services/ApiService';
+import ApiService, { APIURL } from '../../../services/ApiService';
 import { parseJwt, TokenUsuario } from '../../../services/Autenticacao';
 
 
@@ -124,25 +124,8 @@ class CadastrarUsuario extends Component {
 					.catch(erro => console.error(erro));
 
 				break;
-			case "Alterar":
-				/*	
-				ApiService.chamada(url)
-					.Alterar(
-						{
-							Id : this.state.id,
-							Email: this.state.email,
-							Senha: this.state.senha,
-							TipoUsuario: this.state.tipoUsuario
-						}
-					)
-					.then(resposta => {
-							console.log(resposta);
-						}					
-					)
-					.catch(erro => console.error(erro));
-						*/
-					
-					fetch("http://localhost:5000/api/v1/Usuario/Alterar",{
+			case "Alterar":			
+					fetch(APIURL + "Usuario/Alterar",{
 						method:'PUT',
 						headers:{
 							"Content-Type":"application/json",

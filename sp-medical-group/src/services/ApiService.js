@@ -1,8 +1,10 @@
 import { TokenUsuario } from "./Autenticacao";
 
+export const APIURL ="https://spmedicalgroup.azurewebsites.net/api/v1/"; 
+
 export default{
     chamada(endpoint){
-        const url = `http://localhost:5000/api/v1/${endpoint}`;
+        const url = `${APIURL}${endpoint}`;
         return{
             Login : (corpo) => fetch(url,{
                 method:'POST',

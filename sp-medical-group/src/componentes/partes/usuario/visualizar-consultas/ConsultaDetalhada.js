@@ -6,6 +6,7 @@ import InformacoesMedico from '../../publico/informacoes/medico/InformacoesMedic
 import InformacoesClinica from '../../publico/informacoes/clinica/InformacoesClinica';
 import { enumParse } from '../../../../services/Enums';
 import { TokenUsuario } from '../../../../services/Autenticacao';
+import { APIURL } from '../../../../services/ApiService';
 
 class ConsultaDetalhada extends Component {
 	constructor(props) {
@@ -27,7 +28,7 @@ class ConsultaDetalhada extends Component {
 	}
 
 	alterarConsulta(event){
-		fetch("http://localhost:5000/api/v1/Consulta/Alterar", {
+		fetch(APIURL + "Consulta/Alterar", {
 			method: 'PUT',
 			headers: {
 				"Content-Type": "application/json",

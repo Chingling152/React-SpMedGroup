@@ -5,7 +5,7 @@ import { Cabecalho } from '../../../services/Cabecalho';
 import MensagemErro from '../../../componentes/feedback/MensagemErro';
 import MensagemSucesso from '../../../componentes/feedback/MensagemSucesso';
 
-import ApiService from '../../../services/ApiService';
+import ApiService, { APIURL } from '../../../services/ApiService';
 import { parseJwt, TokenUsuario } from '../../../services/Autenticacao';
 
 class CadastrarPaciente extends Component {
@@ -126,7 +126,7 @@ class CadastrarPaciente extends Component {
 					.catch(erro => console.log(erro));
 				break;
 			case "Alterar":
-				fetch("http://localhost:5000/api/v1/Paciente/Alterar", {
+				fetch(APIURL+"Paciente/Alterar", {
 					method: 'PUT',
 					headers: {
 						"Content-Type": "application/json",

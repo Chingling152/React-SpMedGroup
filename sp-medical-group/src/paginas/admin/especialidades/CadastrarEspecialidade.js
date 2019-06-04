@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { Cabecalho } from '../../../services/Cabecalho';
 import MensagemErro from '../../../componentes/feedback/MensagemErro';
 import MensagemSucesso from '../../../componentes/feedback/MensagemSucesso';
-import ApiService from '../../../services/ApiService';
+import ApiService, { APIURL } from '../../../services/ApiService';
 import { TokenUsuario, parseJwt } from '../../../services/Autenticacao';
 
 class CadastrarEspecialidade extends Component {
@@ -104,7 +104,7 @@ class CadastrarEspecialidade extends Component {
 					.catch(erro => console.log(erro));
 				break;
 			case "Alterar":
-				fetch("http://localhost:5000/api/v1/Especialidade/Alterar", {
+				fetch(APIURL + "Especialidade/Alterar", {
 					method: 'PUT',
 					headers: {
 						"Content-Type": "application/json",

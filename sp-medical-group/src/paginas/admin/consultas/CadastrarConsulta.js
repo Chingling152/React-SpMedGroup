@@ -5,7 +5,7 @@ import { Cabecalho } from '../../../services/Cabecalho';
 import MensagemErro from '../../../componentes/feedback/MensagemErro';
 import MensagemSucesso from '../../../componentes/feedback/MensagemSucesso';
 import { parseJwt, TokenUsuario } from '../../../services/Autenticacao';
-import ApiService from '../../../services/ApiService';
+import ApiService, { APIURL } from '../../../services/ApiService';
 import { enumParse } from '../../../services/Enums';
 
 class CadastrarConsulta extends Component {
@@ -111,7 +111,7 @@ class CadastrarConsulta extends Component {
 					.catch(erro => console.log(erro));
 				break;
 			case "Alterar":
-				fetch("http://localhost:5000/api/v1/Consulta/Alterar", {
+				fetch( APIURL+"Consulta/Alterar", {
 					method: 'PUT',
 					headers: {
 						"Content-Type": "application/json",

@@ -44,24 +44,53 @@ class VisualizarConsulta extends Component {
 		this.setState({ consulta: item });
 	}
 
+	receberResposta(resposta) {
+
+		switch (resposta.status) {
+			case 200:
+				resposta.json().then(resultado => {
+					this.setState(
+						{
+							consultas: resultado
+						}
+					);
+				})
+				this.resetarValores();
+				break;
+			case 400:
+			case 404:
+				
+				resposta.json().then(resultado => {
+					this.setState({
+						erro: resultado
+					});
+				}
+				)
+				break;
+			case 401:
+			case 403:
+				resposta.json().then(resultado => {
+					this.setState({ aviso: resultado })
+				}
+				);
+				break;
+			default:
+				this.resetarValores();
+				break;
+		}
+
+	}
+
 	listarConsultas() {	
 		switch (this.state.Usuario.tipo) {
 			case "Paciente":
 				ApiService.chamada("Paciente/VerConsultas").Listar()
-					.then(resposta => resposta.json())
-					.then(resultado => {
-						console.log(resultado);
-						this.setState({ consultas: resultado })
-					})
+					.then(resposta => this.receberResposta(resposta))
 					.catch(erro => console.error(erro))
 				break;
 			case "Medico":
 				ApiService.chamada("Medico/VerConsultas").Listar()
-					.then(resposta => resposta.json())
-					.then(resultado => {
-						console.log(resultado);
-						this.setState({ consultas: resultado })
-					})
+					.then(resposta => this.receberResposta(resposta))
 					.catch(erro => console.error(erro))
 				break;
 			default:
@@ -70,7 +99,7 @@ class VisualizarConsulta extends Component {
 	}
 
 	render() {
-		const {consultas} = this.state;
+		let {consultas} = this.state;
 		const {consulta} = this.state;
 
 		let aviso = consultas.length > 0? "" : "Você não possui consultas";
