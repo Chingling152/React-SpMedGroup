@@ -91,7 +91,6 @@ class CadastrarMedico extends Component {
 	}
 
 	receberResposta(resposta) {
-
 		switch (resposta.status) {
 			case 200:
 				resposta.json().then(resultado => {

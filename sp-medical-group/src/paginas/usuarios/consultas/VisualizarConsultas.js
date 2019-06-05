@@ -59,7 +59,6 @@ class VisualizarConsulta extends Component {
 				break;
 			case 400:
 			case 404:
-				
 				resposta.json().then(resultado => {
 					this.setState({
 						erro: resultado

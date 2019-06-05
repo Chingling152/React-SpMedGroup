@@ -22,9 +22,6 @@ import SemPermissao from './paginas/publico/falhas/SemPermissao.js';
 import VisualizarConsultas from "./paginas/usuarios/consultas/VisualizarConsultas";
 import AlterarInformacoes from "./paginas/usuarios/alterar/AlterarInformacoes";
 
-// Medico
-import AdicionarDescricao from "./paginas/medico/consulta/AdicionarDescricao";
-
 //Administrador
 import AreaAdmin from './paginas/admin/home/AreaAdmin';
 import CadastrarUsuario from "./paginas/admin/usuarios/CadastrarUsuario";
@@ -66,11 +63,8 @@ const rotas = (
                 <Route exact path="/" component={Home} />
                 <Route exact path="/login" component={Login}/>
 
-                {/* <Route path="/minha-area" component={AreaUsuario}/> */}
                 <Logado path="/minha-area/consultas" component={VisualizarConsultas}/>
                 <Logado path="/minha-area/meus-dados" component={AlterarInformacoes}/>
-
-                <Logado path="/minha-area/alterar-consulta" component={AdicionarDescricao}/>
                 
                 <Administrador exact path="/admin" component={AreaAdmin}/>
                 <Administrador path="/admin/dados/usuario" component={CadastrarUsuario}/>

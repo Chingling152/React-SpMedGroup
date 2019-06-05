@@ -52,7 +52,7 @@ class Home extends Component {
 							<section>
 								<TituloSublinhado mensagem="Sobre nosso produto" tamanho="70%" />
 								<div className="grid--container grid--container-informacoes">
-									<Vantagem mensagem="Receba notificações no seu celular" icone="icone-celular" click={()=>alert("Ainda estamos trabalhando nisso")}/>
+									<Vantagem mensagem="Receba notificações no seu celular" icone="icone-celular" link="https://github.com/Chingling152/ReactNative-SpMedicalGroup"/>
 									{VantagemAdmin}
 									<Vantagem mensagem="Saiba como chegar ao local de suas consultas" icone="icone-checkpoint" click={()=>alert("Ainda estamos trabalhando nisso")} />
 								</div>
