@@ -189,7 +189,6 @@ class CadastrarConsulta extends Component {
 		const {consultas} = this.state;
 
 		const Medico = this.state.acao !== "Alterar" ? "Selecione um Medico" : "Você não pode mudar o Medico";
-		//validação situação (gambi arra ;-; )
 
 		
 		return (

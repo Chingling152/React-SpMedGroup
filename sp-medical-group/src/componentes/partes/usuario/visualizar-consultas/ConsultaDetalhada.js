@@ -53,6 +53,7 @@ class ConsultaDetalhada extends Component {
 		.catch(erro => console.log(erro));	
 
 		this.props.metodo.current();
+		// window.location.reload();
 	}
 	
 
@@ -89,12 +90,10 @@ class ConsultaDetalhada extends Component {
 	render() {
 		if(this.props.consulta.length !== 0){	
 			const {descricao} = this.state;
-			console.log(descricao);	
-			console.log(this.state.metodo);	
 
 			const Usuario = this.props.tipoUsuario === "Paciente"?
 			<div>
-				<TituloSublinhado mensagem="Medico" tamanho="50%" />
+				<TituloSublinhado mensagem="Medico" tamanho="50%" /	>
 				<InformacoesMedico medico={this.props.consulta.idMedicoNavigation}/>
 			</div>:
 			<div>
@@ -104,12 +103,10 @@ class ConsultaDetalhada extends Component {
 			;
 
 			const Funcionalidade = this.props.tipoUsuario === "Medico"?
-				<div>
 					<div className="descricao--consulta">
 						<textarea value={descricao} onChange={(e) => this.setState({descricao: e.target.value})}/>
 						<button onClick={this.alterarConsulta.bind(this)}>Alterar descrição</button>
 					</div>
-				</div>
 			:this.props.consulta.descricao === "" || this.props.consulta.descricao === null? 
 				<section className="descricao--consulta">
 					<h1>Sem descrição</h1>

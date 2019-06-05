@@ -40,6 +40,8 @@ class VisualizarConsulta extends Component {
 		}
 	}
 
+
+
 	selecionarConsulta(item) {
 		this.setState({ consulta: item });
 	}
@@ -55,7 +57,6 @@ class VisualizarConsulta extends Component {
 						}
 					);
 				})
-				this.resetarValores();
 				break;
 			case 400:
 			case 404:
@@ -74,11 +75,11 @@ class VisualizarConsulta extends Component {
 				);
 				break;
 			default:
-				this.resetarValores();
 				break;
 		}
-
 	}
+
+
 
 	listarConsultas() {	
 		switch (this.state.Usuario.tipo) {
@@ -102,8 +103,7 @@ class VisualizarConsulta extends Component {
 		const {consulta} = this.state;
 
 		let aviso = consultas.length > 0? "" : "Você não possui consultas";
-
-		if(parseJwt().Role === "Administrador")aviso = "Administradores não podem ter consultas"
+		if(parseJwt() != null)if(parseJwt().Role === "Administrador")aviso = "Administradores não podem ter consultas"
 
 		return (
 			<div className="App">
@@ -114,7 +114,6 @@ class VisualizarConsulta extends Component {
 					<div className="corpo--consultas-container">
 						<div className="corpo--centralizado sombreado">
 							<div id="informacoes--container">
-								{/* <p>Olá<br />{Nome}</p> */}
 								<TituloSublinhado mensagem="Suas Consultas" tamanho="70%" />
 							</div>
 							<div id="consultas--container">
@@ -135,10 +134,6 @@ class VisualizarConsulta extends Component {
 								}
 
 							</div>
-							{/* <div id="consultas--funcionalidades-container">
-								<a className = "link" href="?">Pagina Anterior</a>
-								<a className = "link" href="?">Proxima pagina</a>
-							</div> */}
 						</div>
 					</div>
 					<div>
