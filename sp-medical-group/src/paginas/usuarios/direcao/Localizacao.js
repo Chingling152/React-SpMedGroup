@@ -41,16 +41,16 @@ class Localizacao extends Component {
 
                     <div className="corpo--centralizado sombreado grid--container">
                         <TituloSublinhado mensagem="Veja o local da sua consulta" tamanho="50%"/>
-                        <form className="grid--container">
-                            <div style={margem}>
+                        <form className="grid--container" style={{gridGap:15}}>
+                            <div >
                                 <label for="endereco">Endereço : </label>
                                 <input id="endereco" type="text" placeholder="Insira seu endereço aqui" style={{width:300}} value={this.state.nomeLocal}/>
                             </div>
-                            <div style={margem}>
+                            <div>
                                 <label for="destino">Destino : </label>
                                 <input id="destino" type="text" placeholder="Insira seu destino aqui" style={{width:300}} value={this.state.nomeDestino}/>
                             </div>
-                            <div style={margem}>
+                            <div>
                                 <input style={margem} type="submit" value="Buscar localização"/>
                                 <input style={margem} type="submit" value="Buscar localização atual"/>
                             </div>
@@ -58,7 +58,10 @@ class Localizacao extends Component {
                     </div>
  
                 </main>
-
+                <div>
+                    <p>{this.state.nomeLocal}</p>
+                    <p>{this.state.nomeDestino}</p>
+                </div>
             </div>
          );
     }
