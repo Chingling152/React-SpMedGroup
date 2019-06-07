@@ -23,10 +23,6 @@
     border: 2px ridge #88888857; 
 }
 /* Consulta */
-.corpo--consultas-container{
-    border-right: 1px solid #88888857;
-}
-
 .consulta--container > h3{
     margin:10px 0px;
 }

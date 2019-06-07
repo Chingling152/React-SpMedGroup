@@ -19,7 +19,7 @@ import SemPermissao from './paginas/publico/falhas/SemPermissao.js';
 
 // Usuario
 import VisualizarConsultas from "./paginas/usuarios/consultas/VisualizarConsultas";
-import Localizacao from './paginas/usuarios/direcao/Localizacao';
+// import Localizacao from './paginas/usuarios/direcao/Localizacao';
 
 //Administrador
 import AreaAdmin from './paginas/admin/home/AreaAdmin';
@@ -63,7 +63,7 @@ const rotas = (
                 <Route exact path="/login" component={Login}/>
 
                 <Logado path="/minha-area/consultas" component={VisualizarConsultas}/>
-                <Logado path="/minha-area/localizacao" component={Localizacao}/>
+                {/* <Logado path="/minha-area/localizacao" component={Localizacao}/> */}
                 
                 <Administrador exact path="/admin" component={AreaAdmin}/>
                 <Administrador path="/admin/dados/usuario" component={CadastrarUsuario}/>

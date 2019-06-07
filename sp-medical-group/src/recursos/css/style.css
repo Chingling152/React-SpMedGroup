@@ -46,6 +46,10 @@ p , span, input::placeholder{
     font-size: 14px;
 }
 
+body{
+    background-color: #b0e0e6;
+}
+
 p{
     letter-spacing: 1px;  
 }
